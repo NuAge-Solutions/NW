@@ -1,0 +1,78 @@
+.NwNavController {
+	height: 50px;
+
+	background: #171717;
+	background: -moz-linear-gradient(top, #171717 2%, #575757 4%, #444444 6%, #161616 49%, #000000 50%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(2%, #171717), color-stop(4%, #575757), color-stop(6%, #444444), color-stop(49%, #161616), color-stop(50%, #000000));
+	background: -webkit-linear-gradient(top, #171717 2%, #575757 4%, #444444 6%, #161616 49%, #000000 50%);
+	background: -o-linear-gradient(top, #171717 2%, #575757 4%, #444444 6%, #161616 49%, #000000 50%);
+	background: -ms-linear-gradient(top, #171717 2%, #575757 4%, #444444 6%, #161616 49%, #000000 50%);
+	background: linear-gradient(to bottom, #171717 2%, #575757 4%, #444444 6%, #161616 49%, #000000 50%);
+
+	text-align: center;
+}
+	.NwNavController .OjButton {
+		margin: 2px 0px;
+		padding: 0px;
+
+		background: #5d5d5d;
+		background: -moz-linear-gradient(top, #5d5d5d 0%, #1f1f1f 49%, #040404 51%, #000000 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5d5d5d), color-stop(49%, #1f1f1f), color-stop(51%, #040404), color-stop(100%, #000000));
+		background: -webkit-linear-gradient(top, #5d5d5d 0%, #1f1f1f 49%, #040404 51%, #000000 100%);
+		background: -o-linear-gradient(top, #5d5d5d 0%, #1f1f1f 49%, #040404 51%, #000000 100%);
+		background: -ms-linear-gradient(top, #5d5d5d 0%, #1f1f1f 49%, #040404 51%, #000000 100%);
+		background: linear-gradient(to bottom, #5d5d5d 0%, #1f1f1f 49%, #040404 51%, #000000 100%);
+
+		border-color: #343434;
+		-moz-box-shadow:    0px 1px 0px 0px #818181;
+		-webkit-box-shadow: 0px 1px 0px 0px #818181;
+		box-shadow:         0px 1px 0px 0px #818181;
+
+		vertical-align: middle;
+	}
+
+.NwTabNavController > .OjButton {
+	max-width: 140px;
+	height: 46px;
+
+	background: none;
+	border: none;
+
+	-moz-box-shadow:    none;
+	-webkit-box-shadow: none;
+	box-shadow:         none;
+
+	text-align: center;
+}
+.NwTabNavController > .OjButton.active {
+	background: rgba(255, 255, 255, 0.15);
+
+	-moz-box-shadow:    inset 1px 1px 0px 0px rgba(0,0,0, .3);
+	-webkit-box-shadow: inset 1px 1px 0px 0px rgba(0,0,0, .3);
+	box-shadow:         inset 1px 1px 0px 0px rgba(0,0,0, .3);
+}
+
+	.NwTabNavController > .OjButton > .icon {
+		display: inline-block;
+
+		width: 30px;
+		height: 30px;
+
+		margin: 0px;
+		padding: 1px 0px;
+	}
+
+	.NwTabNavController > .OjButton > .label {
+		display: block;
+
+		margin: 0px;
+		padding: 0px;
+
+		color: #A8A8A8;
+		font-size: 10px;
+		font-weight: normal;
+		text-align: center;
+	}
+	.NwTabNavController > .OjButton.active > .label {
+		color: #FFF;
+	}

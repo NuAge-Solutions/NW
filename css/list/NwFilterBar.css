@@ -1,0 +1,23 @@
+.NwFilterBar {
+
+}
+	.NwFilterBar > .OjComponent {
+		display: block;
+
+		height: 30px;
+	}
+	.NwFilterBar > .search_box {
+		margin-right: 85px;
+
+		clear: none;
+	}
+	.NwFilterBar > .filter_btn,
+	.NwFilterBar > .sort_btn {
+		float: right;
+
+		margin: 0px 0px 0px 10px;
+
+		width: 30px;
+
+		padding: 0px;
+	}
