@@ -60,7 +60,7 @@ window.NW = (function Nw(){
 			},
 
 			'_trace' : function(obj/*, ...objs*/){
-				if(OJ.getMode() == OJ.PRODUCTION){
+				if(OJ.getMode() != OJ.DEV){
 					return;
 				}
 
