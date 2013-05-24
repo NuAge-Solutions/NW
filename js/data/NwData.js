@@ -20,17 +20,18 @@ OJ.extendClass(
 
 			var def = this._static.DEFINITION,
 				e_map = this._static.EXPORT_MAP,
-				i_map = this._static.IMPORT_MAP,
+				i_map = (this._static.IMPORT_MAP = Object.clone(this._static.IMPORT_MAP)),
 				key;
 
+			// setup the definition
 			for(key in def){
-				// make sure the import/export map is synced
-				if(e_map[key]){
-					i_map[e_map[key]] = key;
-				}
-
 				// setup the data functions for the property
 				def[key].setup(this, key, key.ucFirst());
+			}
+
+			// make sure the import/export map is synced
+			for(key in e_map){
+				i_map[e_map[key]] = key;
 			}
 
 			this._static.CACHE = {};
@@ -196,6 +197,18 @@ OJ.extendClass(
 						this._dirty.splice(index, 1);
 					}
 				}
+
+				return;
+			}
+
+			// check to see if this prop is a flattened value
+			var index = prop.indexOf('.');
+
+			if(index > 0){
+				var data = {};
+				data[prop.substr(index + 1)] = value;
+
+				this._importValue(prop.substr(0, index), data, mode);
 			}
 		},
 
@@ -406,7 +419,7 @@ OJ.extendClass(
 			var key,
 				mode = arguments.length > 1 ? arguments[1] : NwData.DEFAULT,
 				map = this._static.IMPORT_MAP,
-				primary = this.primaryKey();
+				primary = this._static.PRIMARY_KEY;
 
 			for(key in data){
 				if(mode == NwData.CLONE && key == primary){

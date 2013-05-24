@@ -24,7 +24,7 @@ OJ.extendClass(
 
 		'_exportSubValue' : function(value, old_value, mode){
 			if(value && isObjective(value)){
-				return this._allowNesting || this._flatten ? value.exportData(mode) : value.primaryKey();
+				return (this._allowNesting || this._flatten) ? value.exportData(mode) : value.primaryKey();
 			}
 
 			return value;
@@ -73,7 +73,7 @@ OJ.extendClass(
 			}
 
 			// if we allow nesting and have an old value then we need to handle this special
-			if(this._allowNesting && old_value){
+			if((this._allowNesting || this._flatten) && old_value){
 				if(isObject(value)){
 					old_value.importData(value, mode);
 				}
@@ -150,7 +150,7 @@ OJ.extendClass(
 				return items;
 			}
 
-			return this._allowNesting ? old_value : null;
+			return (this._allowNesting || this._flatten) ? old_value : null;
 		},
 
 
@@ -166,7 +166,8 @@ OJ.extendClass(
 			var getter = 'get' + u_key,
 				setter = 'set' + u_key,
 				ns = this._namespace.ucFirst(),
-				on_change, allow_nesting = this._allowNesting;
+				on_change,
+				is_sub = (this._allowNesting || this._flatten);
 
 
 			// setup change listener function if one doesn't already exist
@@ -174,7 +175,9 @@ OJ.extendClass(
 
 			if(!obj[on_change]){
 				obj[on_change] = function(evt){
-					this._addToDirty(key);
+					if(is_sub){
+						this._addToDirty(key);
+					}
 				};
 			}
 
@@ -237,7 +240,7 @@ OJ.extendClass(
 						this.property(key, items = new OjCollection());
 					}
 
-					if(allow_nesting){
+					if(is_sub){
 						item.addEventListener(NwDataEvent.CHANGE, this, on_change);
 					}
 
@@ -258,7 +261,7 @@ OJ.extendClass(
 						this.property(key, items = new OjCollection());
 					}
 
-					if(allow_nesting){
+					if(is_sub){
 						item.addEventListener(NwDataEvent.CHANGE, this, on_change);
 					}
 
@@ -327,7 +330,7 @@ OJ.extendClass(
 						return item;
 					}
 
-					if(allow_nesting){
+					if(is_sub){
 						item.removeEventListener(NwDataEvent.CHANGE, this, on_change);
 					}
 
@@ -348,7 +351,7 @@ OJ.extendClass(
 						return null;
 					}
 
-					if(allow_nesting){
+					if(is_sub){
 						item.removeEventListener(NwDataEvent.CHANGE, this, on_change);
 					}
 

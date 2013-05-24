@@ -287,8 +287,11 @@ OJ.extendManager(
 		},
 
 
-		'getAccessToken' : function(){
-			if(this._session && this._session.accessToken){
+		'getAccessToken' : function(/*reload = false*/){
+			var args = arguments,
+				reload = args.length ? args[0] : false;
+
+			if(this._session && this._session.accessToken && !reload){
 				return this._session.accessToken;
 			}
 

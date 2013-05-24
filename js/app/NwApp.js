@@ -31,7 +31,7 @@ OJ.extendClass(
 
 		'_api_endpoint' : '/',  '_api_request_type' : OjUrlRequest.QUERY_STRING,  '_api_response_type' : null,
 
-		'_has_mobile_layout' : false,  '_has_tablet_layout' : false,
+		'_has_mobile_layout' : false,  '_has_tablet_layout' : false,  '_is_logged_in' : false,
 
 		'_orientations' : null,  '_ready' : false,  '_scale' : 1,  '_timer' : null,
 
@@ -85,24 +85,30 @@ OJ.extendClass(
 		},
 
 		'_login' : function(){
+			this._is_logged_in = true;
+
 			this.dispatchEvent(new OjEvent(NwApp.LOGIN));
 
 			AppManager.dispatchEvent(new OjEvent(NwApp.LOGIN));
 		},
 
 		'_loginFail' : function(){
+			this._is_logged_in = false;
+
 			this.dispatchEvent(new OjEvent(NwApp.LOGIN_FAIL));
 
 			AppManager.dispatchEvent(new OjEvent(NwApp.LOGIN_FAIL));
 		},
 
 		'_logout' : function(){
+			this._is_logged_in = false;
+
 			this.dispatchEvent(new OjEvent(NwApp.LOGOUT));
 
 			AppManager.dispatchEvent(new OjEvent(NwApp.LOGOUT));
 		},
 
-		'_logout_fail' : function(){
+		'_logoutFail' : function(){
 			this.dispatchEvent(new OjEvent(NwApp.LOGOUT_FAIL));
 
 			AppManager.dispatchEvent(new OjEvent(NwApp.LOGOUT_FAIL));
@@ -160,7 +166,7 @@ OJ.extendClass(
 		},
 
 		'isLoggedIn' : function(){
-			return !isNull(this._session) && !isEmpty(this._session.getToken());
+			return this._is_logged_in;
 		},
 
 		'login' : function(){ },
