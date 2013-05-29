@@ -194,10 +194,10 @@ OJ.extendClass(
 			}
 
 			if(this._buttonMode){
-				this.removeClasses(this._buttonMode);
+				this.removeCss([this._buttonMode]);
 			}
 
-			this.addClasses(this._buttonMode = val);
+			this.addCss([this._buttonMode = val]);
 
 			if(this._buttonMode == this._static.HIDE_BUTTONS){
 				this.removeChild(this.prevBtn);
@@ -206,7 +206,7 @@ OJ.extendClass(
 			else{
 				if(!this.prevBtn){
 					this.prevBtn = new OjButton(this._prevButtonLabel, this._prevButtonIcon);
-					this.prevBtn.addClasses('prevBtn');
+					this.prevBtn.addCss(['prevBtn']);
 					this.prevBtn.addEventListener(OjMouseEvent.CLICK, this, '_onPrevClick');
 				}
 
@@ -214,7 +214,7 @@ OJ.extendClass(
 
 				if(!this.nextBtn){
 					this.nextBtn = new OjButton(this._nextButtonLabel, this._nextButtonIcon);
-					this.nextBtn.addClasses('nextBtn');
+					this.nextBtn.addCss(['nextBtn']);
 					this.nextBtn.addEventListener(OjMouseEvent.CLICK, this, '_onNextClick');
 				}
 

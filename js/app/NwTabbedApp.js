@@ -17,12 +17,12 @@ OJ.extendClass(
 
 			// setup the stack
 			this.addChild(this.stack = new OjStack(OjStack.FADE, 250));
-			this.stack.addClasses('stack');
+			this.stack.addCss('stack');
 
 			// setup the nav controller
 			this.addChild(this.nav = new NwTabNavController(this.stack));
 			this.nav.setId('nav');
-			this.nav.addClasses('nav');
+			this.nav.addCss('nav');
 			this.nav.addEventListener(OjEvent.CHANGE, this, '_onViewChange');
 
 			// setup the routing

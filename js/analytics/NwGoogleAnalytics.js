@@ -53,7 +53,7 @@ OJ.extendClass(
 			};
 			w.ga.l = 1 * new Date();
 
-			OJ.addJs('//www.google-analytics.com/analytics.js', true);
+			OJ.addJsFile('//www.google-analytics.com/analytics.js', true);
 		},
 
 		'_processActionItem' : function(evt){

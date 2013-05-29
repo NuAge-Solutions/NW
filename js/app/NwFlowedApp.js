@@ -18,14 +18,14 @@ OJ.extendClass(
 
 			// setup the stack
 			this.stack = new OjStack(OjStack.SLIDE_HORZ, 250);
-			this.stack.addClasses('stack');
+			this.stack.addCss('stack');
 
 			this.addChild(this.stack);
 
 			// setup the nav controller
 			this.nav = new NwFlowNavController(this.stack);
 			this.nav.setId('nav');
-			this.nav.addClasses('nav');
+			this.nav.addCss('nav');
 
 			this.addChildAt(this.nav, 0);
 

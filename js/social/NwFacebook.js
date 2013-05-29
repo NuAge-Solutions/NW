@@ -216,7 +216,7 @@ OJ.extendManager(
 			OJ.addChildAt(new OjStyleElement('<div id="fb-root"></div>'), 0);
 
 			// load the sdk
-			OJ.addJs('//connect.facebook.net/en_US/all.js', true);
+			OJ.addJsFile('//connect.facebook.net/en_US/all.js', true);
 		},
 
 		'_onStatusChange' : function(response){

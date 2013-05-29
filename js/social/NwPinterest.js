@@ -20,7 +20,7 @@ OJ.extendManager(
 				this._library_elm.parentNode.removeChild(this._library_elm);
 			}
 
-			this._library_elm = OJ.addJs('//assets.pinterest.com/js/pinit.js', true);
+			this._library_elm = OJ.addJsFile('//assets.pinterest.com/js/pinit.js', true);
 		},
 
 		'makePinItButton' : function(img/*, url, description*/){
