@@ -23,7 +23,7 @@ OJ.extendClass(
 				this._super('NwNavController', '_constructor', []);
 
 				// setup the display
-				this.setVertAlign(OjStyleElement.MIDDLE);
+				this.setVAlign(OjStyleElement.MIDDLE);
 
 				// setup vars
 				this._history = [];

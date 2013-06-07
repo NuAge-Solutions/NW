@@ -401,7 +401,11 @@ OJ.extendClass(
 					// if the value is an object then we need to check the flatten property flag
 					if(isObject(val) && (prop = this._static.getProperty(key)).getFlatten()){
 						for(key in val){
-							mkey = prop.getNamespace() + key.ucFirst();
+							if(key == '_class_name'){
+								continue;
+							}
+
+							mkey = prop.getNamespace() + '.' + key;
 
 							obj[map[mkey] ? map[mkey] : mkey] = val[key];
 						}

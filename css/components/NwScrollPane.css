@@ -1,0 +1,7 @@
+.NwScrollPane {
+	display: block;
+	overflow: auto;
+}
+	.NwScrollPane > * {
+		/*position: absolute;*/
+	}

@@ -14,7 +14,7 @@ OJ.extendManager(
 		'_constructor' : function(){
 			this._super('NwTwitter', '_constructor', arguments);
 
-			OJ.addJsFile('//platform.twitter.com/widgets.js', true);
+			OJ.addJsFile('//platform.twitter.com/widgets.js', true, true);
 		},
 
 

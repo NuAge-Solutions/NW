@@ -60,19 +60,13 @@ OJ.extendManager(
 		},
 
 		'getSession' : function(){
-			if(!this._session && this._app){
-				this._session = this._app.getSession();
-			}
-
-			return this._session;
+			return this._app.getSession();
 		},
 
 		'getUser' : function(){
-			if(!this._user && this.getSession()){
-				this._user = this._session.getUser();
-			}
+			var session = this.getSession();
 
-			return this._user;
+			return session ? session.getUser() : null;
 		},
 
 		'hideLoading' : function(){
