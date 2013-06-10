@@ -6,7 +6,6 @@ OJ.importJs('nw.data.properties.NwUuidProperty');
 OJ.importJs('nw.net.NwUrlLoader');
 
 OJ.importJs('oj.events.OjActionable');
-OJ.importJs('oj.utils.OjUuid');
 
 
 'use strict';
@@ -35,13 +34,14 @@ OJ.extendClass(
 			}
 
 			this._static.CACHE = {};
+			this._static._BACKLOG = [];
 		},
 
 
 		// Properties & Variables
-		'_data' : null,  '_dirty' : null,  '_keyword_cache' : null,
-
-		'_loader' : null,  '_is_loaded' : false,
+//		'_data' : null,  '_dirty' : null,  '_keyword_cache' : null,
+//
+//		'_loader' : null,  '_is_loaded' : false,
 
 
 		// Construction & Destruction Functions
@@ -591,7 +591,41 @@ OJ.extendClass(
 
 
 		// Static Protected Functions
+		'_BACKLOG' : [],
+
+		'_onAppManagerInit' : function(evt){
+			AppManager.removeEventListener(OjEvent.INIT, this, '_onAppManagerInit');
+
+			var i = 0,
+				ln = this._BACKLOG.length,
+				record;
+
+			for(i; i < ln; i++){
+				record = this._BACKLOG[i];
+
+				this[record[0]].apply(this, record[1]);
+			}
+
+			delete this._BACKLOG;
+		},
+
+		'_backlogCall' : function(method, args){
+			if(AppManager.isReady()){
+				return false;
+			}
+
+			AppManager.addEventListener(OjEvent.INIT, this, '_onAppManagerInit');
+
+			this._BACKLOG.push([method, args]);
+
+			return true;
+		},
+
 		'_callApi' : function(url, data, method, onComplete, onFail){
+			if(this._backlogCall('_callApi', arguments)){
+				return;
+			}
+
 			return this._callApiWithRequest(AppManager.apiRequest(url, data, method), onComplete, onFail);
 		},
 
@@ -765,10 +799,6 @@ OJ.extendClass(
 			}
 
 			return null;
-		},
-
-		'uuid' : function(){
-			return uuid.v4();
 		}
 	}
 );

@@ -17,7 +17,7 @@ OJ.extendManager(
 			'user' : null
 		},
 
-		'_oj_ready' : false,
+		'_oj_ready' : false,  '_ready' : false,
 
 
 		'_constructor' : function(){
@@ -34,9 +34,14 @@ OJ.extendManager(
 
 
 		'_initApp' : function(){
-			if(this._oj_ready && this._app && OJ.isSupported()){
+			if(this._oj_ready && this._app && OJ.isSupported() && !this._ready){
+				this._ready = true;
+
 				// init the app and get the session session
 				this._session = this._app.init();
+
+				// let everyone know we are inited
+				this.dispatchEvent(new OjEvent(OjEvent.INIT))
 			}
 		},
 
@@ -85,6 +90,10 @@ OJ.extendManager(
 
 		'isLoggedIn' : function(){
 			return this._app.isLoggedIn();
+		},
+
+		'isReady' : function(){
+			return this._ready;
 		},
 
 		'login' : function(){
