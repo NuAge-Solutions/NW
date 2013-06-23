@@ -37,7 +37,9 @@ OJ.extendManager(
 
 			OJ.render(btn);
 
-			twttr.widgets.load();
+			if(window.twttr){
+				twttr.widgets.load();
+			}
 
 			return btn;
 		}

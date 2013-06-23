@@ -95,6 +95,22 @@ window.NW = (function Nw(){
 				this._keyboard_visible = true;
 			},
 
+			'_onOrientationChange' : function(evt){
+				// if not native lock the orientation in
+				if(!this._is_native){
+					var orientationEvent = OjOrientationEvent;
+
+//					if(
+//						(o == orientationEvent.LANDSCAPE_LEFT )
+//					){
+//
+//					}
+//					else if(evt.getOrientation() == OjOrientationEvent.LANDSCAPE_RIGHT){
+//
+//					}
+				}
+			},
+
 
 			// config functions
 			'getGateway' : function(){
@@ -236,6 +252,7 @@ window.NW = (function Nw(){
 				OJ.importJs('nw.app.NwAppManager');
 				OJ.importJs('nw.events.NwEvent');
 				OJ.importJs('nw.net.NwRpc');
+				OJ.importJs('oj.events.OjOrientationEvent');
 
 			},
 
@@ -244,6 +261,9 @@ window.NW = (function Nw(){
 
 				if(this._is_native){
 					this.comm('ready', []).load();
+				}
+				else{
+					OJ.addEventListener(OjOrientationEvent.CHANGE, this, '_onOrientationChange');
 				}
 			}
 		}

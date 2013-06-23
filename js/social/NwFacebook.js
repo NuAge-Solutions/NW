@@ -164,6 +164,12 @@ OJ.extendManager(
 				status     : true,                          // Check Facebook Login status
 				xfbml      : true                           // Look for social plugins on the page
 			});
+
+			if(this._scope){
+				this.login(this._scope);
+
+				this._scope = null;
+			}
 		},
 
 		'_login' : function(session){
@@ -249,12 +255,14 @@ OJ.extendManager(
 				NW.comm('fbLogin', Array.array(args)).load();
 			}
 			else{
-				FB.login(
-					Facebook._onStatusChange,
-					{
-						'scope' : ln ? args[0].join(',') : null
-					}
-				);
+				var scope = ln ? args[0].join(',') : null;
+				trace('here');
+				if(FB){
+					FB.login(Facebook._onStatusChange, {'scope' : scope});
+				}
+				else{
+					this._scope = scope;
+				}
 			}
 		},
 
@@ -300,7 +308,7 @@ OJ.extendManager(
 			if(NW.isNative()){
 				return (response = NW.comm('fbAccessToken', [], false).load()) && response.result ? this._session.accessToken = response.result : null;
 			}
-			else if(response = FB.getAuthResponse()){
+			else if(window.FB && (response = window.FB.getAuthResponse())){
 				return response ? this._session.accessToken = response.accessToken : null;
 			}
 

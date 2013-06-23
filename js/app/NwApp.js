@@ -56,7 +56,7 @@ OJ.extendClass(
 
 				this._scale = OJ.getPixelRatio();
 
-				OJ.meta('viewport', 'initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no');
+				OJ.meta('viewport', 'width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no');
 				OJ.meta('apple-mobile-web-app-capable', 'yes');
 			}
 

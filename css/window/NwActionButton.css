@@ -1,0 +1,6 @@
+.NwActionButton {
+	display: block;
+}
+	.NwActionButton > .btn {
+		width: 100%;
+	}
