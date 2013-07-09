@@ -1,0 +1,1 @@
+OJ.importJs("nw.data.properties.NwProperty");"use strict";OJ.extendClass(NwProperty,"NwBooleanProperty",{_exportValue:function(b,a,c){return b?1:0},_processValue:function(b,a,c){return isTrue(b)}});
