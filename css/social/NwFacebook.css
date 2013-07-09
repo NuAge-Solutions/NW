@@ -1,0 +1,22 @@
+.fb-like-btn {
+	display: inline-block;
+}
+
+.fb-share-btn,
+.fb-share-btn:active,
+.fb-share-btn:focus,
+.fb-share-btn:hover {
+	width: 40px;
+	height: 20px;
+
+	background: url(http://passets.pinterest.com/images/pidgets/bps2.png) no-repeat 0px -20px;
+	background-size: 40px 60px;
+
+	overflow: hidden;
+}
+.fb-share-btn:hover {
+	background-position: 0px 0px;
+}
+.fb-share-btn:active {
+	background-position: 0px -40px;
+}

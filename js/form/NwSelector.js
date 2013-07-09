@@ -27,11 +27,13 @@ OJ.extendComponent(
 
 
 		'_onSummaryClick' : function(evt){
-			var ac;
+			if(isEmpty(this.getOptions())){
+				return;
+			}
 
-			ac = WindowManager.makeActionCard(this.input, this._label);
-
-			WindowManager.show(ac);
+			WindowManager.show(
+				WindowManager.makeActionCard(this.input, this._label)
+			);
 		},
 
 

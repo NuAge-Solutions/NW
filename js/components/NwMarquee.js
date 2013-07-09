@@ -1,4 +1,3 @@
-OJ.importJs('nw.components.NwCollectionStack');
 OJ.importJs('oj.timer.OjTimer');
 
 OJ.importCss('nw.components.NwMarquee');
@@ -13,16 +12,15 @@ OJ.extendClass(
 		'_props_' : {
 			'buttonMode'        : null,
 			'interval'          : 0,
-			'itemRenderer'      : null,
 			'nextButtonIcon'    : null,
 			'nextButtonLabel'   : 'Next >',
 			'prevButtonIcon'    : null,
 			'prevButtonLabel'   : '< Prev'
 		},
 
-		'_template' : 'nw.components.NwMarquee',  '_timer' : null,
+		'_template' : 'nw.components.NwMarquee',
 
-		'nextBtn' : null,  'prevBtn' : null,
+//		'_timer' : null,  'nextBtn' : null,  'prevBtn' : null,
 
 
 		// Construction & Destruction Functions
@@ -31,6 +29,13 @@ OJ.extendClass(
 
 			var args = arguments,
 				ln = args.length;
+
+			// setup the stack
+			this.container.setAllowLooping(true);
+
+			this.container.addEventListener(OjMouseEvent.OVER, this, '_onMouseOver');
+			this.container.addEventListener(OjMouseEvent.OUT, this, '_onMouseOut');
+			this.container.addEventListener(OjStackEvent.CHANGE_COMPLETE, this, '_onChange');
 
 			// setup stack
 			if(ln){
@@ -44,13 +49,6 @@ OJ.extendClass(
 
 				this.setItems(args[0]);
 			}
-
-			this.container.setAllowLooping(true);
-
-			// setup the event listeners
-			this.container.addEventListener(OjMouseEvent.OVER, this, '_onMouseOver');
-			this.container.addEventListener(OjMouseEvent.OUT, this, '_onMouseOut');
-			this.container.addEventListener(OjStackEvent.CHANGE_COMPLETE, this, '_onChange');
 
 			// setup the timer
 			this._timer = new OjTimer(this._interval * 1000, 0);
@@ -108,14 +106,14 @@ OJ.extendClass(
 		// Event Handler Functions
 		'_onChange' : function(evt){
 			var stack = this.container,
-				index = evt.getIndex();
+				index = evt.getIndex(), item;
 
-			var prerender = this.prerender;
-
-			prerender.removeAllChildren();
-
-			prerender.addChild(stack.renderItem(stack.getElmAt(index - 1)));
-			prerender.addChild(stack.renderItem(stack.getElmAt(index + 1)));
+			this.prerender.setChildren(
+				[
+					(item = stack.getElmAt(index - 1)) == stack.getActive() ? null : stack.renderItem(item),
+					(item = stack.getElmAt(index + 1)) == stack.getActive() ? null : stack.renderItem(item)
+				]
+			);
 		},
 
 		'_onTimerTick' : function(evt){
@@ -233,7 +231,7 @@ OJ.extendClass(
 				return;
 			}
 
-			this._super('NwCollectionStack', 'setIsDisabled', arguments);
+			this._super('NwMarquee', 'setIsDisabled', arguments);
 
 			if(this._isDisabled && this._timer.isRunning()){
 				this._timer.pause();
@@ -251,10 +249,10 @@ OJ.extendClass(
 		},
 
 		'getItems' : function(){
-			return this.container.getItems();
+			return this.container.getElms();
 		},
 		'setItems' : function(val){
-			this.container.setItems(val);
+			this.container.setElms(val);
 		},
 
 		'setNextButtonIcon' : function(icon){

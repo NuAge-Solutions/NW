@@ -2,6 +2,20 @@
 	display: block;
 	overflow: auto;
 }
-	.NwScrollPane > * {
-		/*position: absolute;*/
+.is-mobile .NwScrollPane {
+	overflow: hidden;
+	-webkit-overflow-scrolling: auto;
+}
+	.NwScrollPane > .content {
+		min-width: 100%;
+		min-height: 100%
+	}
+	.NwScrollPane > .content > .container > *,
+	.NwScrollPane > .container > * {
+		display: block;
+
+		position: absolute;
+
+		top: 0px;
+		left: 0px;
 	}

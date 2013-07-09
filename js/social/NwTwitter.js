@@ -1,5 +1,7 @@
 OJ.importJs('oj.events.OjActionable');
 
+OJ.importCss('nw.social.NwTwitter');
+
 
 'use strict';
 
@@ -11,35 +13,24 @@ OJ.extendManager(
 		},
 
 
-		'_constructor' : function(){
-			this._super('NwTwitter', '_constructor', arguments);
-
-			OJ.addJsFile('//platform.twitter.com/widgets.js', true, true);
-		},
-
-
-
-
 		'makeShareButton' : function(/*url, text, show_count=false, user, related, hashtags*/){
 			var args = arguments,
 				ln = args.length,
-				user = ln > 3 ? args[3] : this._user;
+				user = ln > 3 ? args[3] : this._user,
+				btn = new OjLink(
+				'Tweet',
+				'https://twitter.com/intent/tweet' +
+				'?original_referer=' + String.string(ln ? args[0] : HistoryManager.get()).encodeUri() +
+				'&text=' + String.string(ln > 1 ? args[1] : '').encodeUri().replace('%20', '+') +
+				'&url=' + String.string(ln > 4 ? args[4] : '').encodeUri() +
+				'&via=' + user.encodeUri(),
+				WindowManager.WINDOW
+			);
 
-			var btn = new OjStyleElement('<span></span>');
-			btn.dom().innerHTML = '<a href="https://twitter.com/share" class="twitter-share-button"' +
-				' data-url="' + String.string(ln ? args[0] : HistoryManager.get()) + '"' +
-				(ln > 1 ? ' data-text="' + String.string(args[1]) + '"' : '') +
-				(ln > 2 && args[2] ? '' : ' data-count="none"') +
-				(user ? ' data-via="' + user + '"' : '') +
-				(ln > 4 ? ' data-related="' + String.string(args[4]) + '"' : '') +
-				(ln > 5 ? ' data-hashtags="' + String.string(args[5]) + '"' : '') +
-				'>Tweet</a>';
+			btn.addCss(['twitter-share-btn']);
 
-			OJ.render(btn);
-
-			if(window.twttr){
-				twttr.widgets.load();
-			}
+			btn.setTargetWidth(550);
+			btn.setTargetHeight(420);
 
 			return btn;
 		}

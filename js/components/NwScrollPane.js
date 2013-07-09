@@ -1,4 +1,6 @@
-OJ.importJs('oj.components.OjComponent');
+OJ.importJs('nw.layouts.NwColumnLayout');
+OJ.importJs('oj.components.OjCollectionComponent');
+OJ.importJs('oj.data.OjRect');
 OJ.importJs('oj.events.OjScrollEvent');
 
 OJ.importCss('nw.components.NwScrollPane');
@@ -7,108 +9,172 @@ OJ.importCss('nw.components.NwScrollPane');
 'use strict';
 
 OJ.extendComponent(
-	OjComponent, 'NwScrollPane',
+	OjView, 'NwScrollPane',
 	OJ.implementInterface(
-		OjICollection,
+		OjICollectionComponent,
 		{
 			'_props_' : {
-				'items' : null
+				'layout'      : null,
+				'allowScroll' : 'both' // NwScrollPane.BOTH
 			},
 
+			'_custom_scroll' : OJ.isTouchCapable() && (OJ.isMobile() || OJ.isTablet()),
 
-			'_constructor' : function(){
+			'_multiplier' : 2,  '_lastScroll' : 0,
+
+//			'_scrollPosX' : 0,  '_scrollPosX' : 0
+
+
+			'_constructor' : function(/*layout=new NwColumnLayout(1)*/){
+				var args = arguments;
+
+				if(this._custom_scroll){
+					this._template = 'nw.components.NwScrollPane';
+				}
+
 				this._super('NwScrollPane', '_constructor', []);
 
-				// setup the elm function overrides
-				this._elm_funcs = {
-					'addElm'        : 'addItem',
-					'addElmAt'      : 'addItemAt',
-					'getElmAt'      : 'getItemAt',
-					'getElms'       : 'getItems',
-					'hasElm'        : 'hasItem',
-					'indexOfElm'    : 'indexOfItem',
-					'moveElm'       : 'moveItem',
-					'numElms'       : 'numItems',
-					'removeAllElms' : 'removeAllItems',
-					'removeElm'     : 'removeItem',
-					'removeElmAt'   : 'removeItemAt',
-					'replaceElm'    : 'replaceItem',
-					'replaceElmAt'  : 'replaceItemAt'
-				};
+				// run the collection component setup
+				this._setup();
 
+				// figure out what events to listen for
+				if(this._custom_scroll){
+					this.addEventListener(OjDragEvent.START, this, '_onPaneScrollStart');
+					this.addEventListener(OjDragEvent.DRAG, this, '_onPaneScrollMove');
+					this.addEventListener(OjDragEvent.END, this, '_onPaneScrollEnd');
+				}
+				else{
+					this.addEventListener(OjScrollEvent.SCROLL, this, '_onPaneScroll');
+				}
+
+				// setup the elm function overrides
 				this._dims = [];
 
-				this.addEventListener(OjScrollEvent.SCROLL, this, '_onScroll');
+				this.setLayout(args.length ? args[0] : new NwColumnLayout());
+
+//				if(OJ.isComputer()){
+//					this._multiplier = 2;
+//				}
+			},
+
+			'_destructor' : function(){
+				// run the collection component teardown
+				this._teardown();
+
+				this._super('NwScrollPane', '_destructor', arguments);
 			},
 
 
-			'_recalculateLayout' : function(i){
-				var ln = this.numElms(),
-					w = this.getInnerWidth(),
-					h = this.getInnerHeight(),
-					x = 0,
-					y = 0,
-					prev, elm, elm_w, elm_h, ln2;
+			'_canScrollX' : function(){
+				return this._allowScroll == this._static.X || this._allowScroll == this._static.BOTH;
+			},
 
-				// if we don't have a width or height no point in calculating anything
-				if(!w || !h){
-					return;
-				}
+			'_canScrollY' : function(){
+				return this._allowScroll == this._static.Y || this._allowScroll == this._static.BOTH;
+			},
 
-				for(; i < ln; i++){
-					if(i > 0){
-						prev = this._dims[i - 1];
 
-						x = prev.right;
-						y = prev.bottom;
-					}
+			'_onPaneScroll' : function(evt){
+				var now = (new Date()).getTime();
 
-					elm = this.getElmAt(i);
-					elm_w = elm.getWidth();
-					elm_h = elm.getHeight();
+				if(now - this._lastScroll > 5){
+					this._lastScroll = now;
 
-					// check to see if we need to newline it
-					if(elm_w + x > w){
-						x = 0;
-
-						ln2 = i - 1;
-
-						for(; ln2--;){
-							if(this._dims[ln2].left == 0){
-								y = this._dims[ln2].bottom
-							}
-						}
-					}
-
-					this._dims[i] = OJ.makeRect(x, y, elm_w, elm_h);
+					this.redraw();
 				}
 			},
 
-			'_onDomScrollEvent' : function(evt){
-				var proxy = OjElement.byId(this.ojProxy);
-
-				if(proxy && proxy._processEvent(evt)){
-					proxy._onEvent(OjScrollEvent.convertDomEvent(evt));
-				}
+			'_onPaneScrollStart' : function(evt){
+				this._scrollX = this.content.getX();
+				this._scrollY = this.content.getY();
 			},
 
-			'_onScroll' : function(evt){
+			'_onPaneScrollMove' : function(evt){
+				var max_x = this._canScrollX() ? this.getWidth() - this.content.getWidth() : 0,
+					max_y = this._canScrollY() ? this.getHeight() - this.content.getHeight() : 0;
+				trace(this._scrollY + evt.getDeltaY(), this.getHeight(), this.content.getHeight());
+				this.content.setX(Math.max(Math.min(this._scrollX + evt.getDeltaX(), 0), max_x));
+				this.content.setY(Math.max(Math.min(this._scrollY + evt.getDeltaY(), 0), max_y));
+
+				this.redraw();
+			},
+
+			'_onPaneScrollEnd' : function(evt){
 
 			},
 
 
-			'addEventListener' : function(type){
+			'addEventListener' : function(type, target, func){
 				this._super('NwScrollPane', 'addEventListener', arguments);
 
-				// mouse events
-				if(type == OjScrollEvent.SCROLL){
-					this._proxy.onscroll = this._onDomScrollEvent;
-				}
+				this._addItemListener(type);
+			},
+
+			'removeEventListener' : function(type, target, func){
+				this._super('NwScrollPane', 'removeEventListener', arguments);
+
+				this._removeItemListener(type);
 			},
 
 			'redraw' : function(){
 				if(this._super('NwScrollPane', 'redraw', arguments)){
-					this._recalculateLayout(0);
+					// redraw the visible items
+					var container = this.container,
+						y = this.getScrollY(), h = this.getHeight(),
+						visible = this._layout.getVisible(
+							new OjRect(
+								this.getScrollX() - container.getX(), y - container.getY(),
+								this.getWidth() * this._multiplier, h * this._multiplier
+							)
+						),
+						ln = container.numChildren(),
+						i;
+
+					// figure which of the existing will stay and go
+					for(; ln--;){
+						if((i = visible.indexOf(this.indexOfElm(container.getChildAt(ln)))) == -1){
+							container.removeChildAt(ln);
+						}
+						else{
+							visible.splice(i, 1);
+						}
+					}
+
+					// add all the new items
+					ln = visible.length;
+
+					for(; ln--;){
+						container.addChild(this.renderItemAt(visible[ln]));
+					}
+
+					// check to see if the footer is visible
+					// note: footer needs to be first since we recycle the h var for header
+					if(this.footer){
+						if(y + h < this.footer.getY()){
+							if(this._footer.parent()){
+								this.footer.setHeight(this.footer.getHeight());
+								this.footer.removeAllChildren();
+							}
+						}
+						else{
+							this.footer.addChild(this._footer);
+							this.footer.setHeight(OjStyleElement.AUTO);
+						}
+					}
+
+					// check to see if the header is visible
+					if(this.header){
+						if(y > (h = this.header.getHeight())){
+							if(this._header.parent()){
+								this.header.setHeight(h);
+								this.header.removeAllChildren();
+							}
+						}
+						else{
+							this.header.addChild(this._header);
+							this.header.setHeight(OjStyleElement.AUTO);
+						}
+					}
 
 					return true;
 				}
@@ -116,30 +182,78 @@ OJ.extendComponent(
 				return false;
 			},
 
-			'_prepareItems' : function(){
-				if(this._items){
+
+			// Event Handler Functions
+			'_onItemAdd' : function(evt){
+				this._super('NwScrollPane', '_onItemAdd', arguments);
+
+				this._onItemChange(evt);
+			},
+
+			'_onItemChange' : function(evt){
+				this._layout.recalculateLayout(evt.getIndex());
+
+				this.container.setHeight(this._layout.getItemRectAt(this.numElms() - 1).getBottom());
+
+				this.redraw();
+			},
+
+			'_onItemMove' : function(evt){
+				this._super('NwScrollPane', '_onItemMove', arguments);
+
+				this._onItemChange(evt);
+			},
+
+			'_onItemRemove' : function(evt){
+				this._super('NwScrollPane', '_onItemRemove', arguments);
+
+				this._onItemChange(evt);
+			},
+
+			'_onItemReplace' : function(evt){
+				this._super('NwScrollPane', '_onItemReplace', arguments);
+
+				this._onItemChange(evt);
+			},
+
+
+			// getter & setter functions
+			'setLayout' : function(val){
+				if(this._layout == val){
 					return;
 				}
 
-				var items = (this._items = new OjCollection());
-
-				items.addEventListener(OjCollectionEvent.ITEM_ADD, this, '_onItemChange');
-				items.addEventListener(OjCollectionEvent.ITEM_MOVE, this, '_onItemChange');
-				items.addEventListener(OjCollectionEvent.ITEM_REMOVE, this, '_onItemChange');
-				items.addEventListener(OjCollectionEvent.ITEM_REPLACE, this, '_onItemChange');
-
-				return items;
+				(this._layout = val).setTarget(this);
 			},
 
-			// Event Handler Functions
-			'_onItemChange' : function(evt){
-				OJ.render(this.getElmAt(evt.getIndex()));
+			'getScrollX' : function(){
+				return this._custom_scroll ? this.content.getX() * -1 : this._super('NwScrollPane', 'getScrollX', arguments);
+			},
+			'setScrollX' : function(val){
+				if(this._custom_scroll){
+					return this.content.setX(-1 * val);
+				}
 
-				this._recalculateLayout(evt.getIndex());
+				this._super('NwScrollPane', 'setScrollX', arguments);
+			},
+
+			'getScrollY' : function(){
+				return this._custom_scroll ? this.content.getY() * -1 : this._super('NwScrollPane', 'getScrollY', arguments);
+			},
+			'setScrollY' : function(val){
+				if(this._custom_scroll){
+					return this.content.setY(-1 * val);
+				}
+
+				this._super('NwScrollPane', 'setScrollY', arguments);
 			}
 		}
 	),
 	{
-		'_TAGS' : ['scrollpane']
+		'_TAGS' : ['scrollpane'],
+
+		'BOTH' : 'x',
+		'X'    : 'x',
+		'Y'    : 'y'
 	}
 );

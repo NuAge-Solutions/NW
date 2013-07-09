@@ -2,6 +2,8 @@ OJ.importJs('nw.utils.NwCacheManager');
 OJ.importJs('oj.events.OjActionable');
 OJ.importJs('oj.dom.OjStyleElement');
 
+OJ.importCss('nw.social.NwFacebook');
+
 
 'use strict';
 
@@ -280,7 +282,7 @@ OJ.extendManager(
 			var args = arguments,
 				ln = args.length;
 
-			var btn = new OjStyleElement('<span></span>');
+			var btn = new OjStyleElement('<span class="fb-like-btn"></span>');
 			btn.dom().innerHTML =
 				'<fb:like ' +
 				'href="' + (ln ? args[0] : HistoryManager.get().toString()) + '"' +
@@ -290,6 +292,24 @@ OJ.extendManager(
 			if(window.FB){
 				window.FB.XFBML.parse(btn.dom());
 			}
+
+			return btn;
+		},
+
+		'makeShareButton' : function(/*url*/){
+			var args = arguments,
+				ln = args.length;
+
+			var btn = new OjLink(
+				null,
+				'https://www.facebook.com/sharer/sharer.php?u=' + (ln ? args[0] : HistoryManager.get().toString()).encodeUri(),
+				WindowManager.WINDOW
+			);
+
+			btn.addCss(['fb-share-btn']);
+
+			btn.setTargetWidth(626);
+			btn.setTargetHeight(436);
 
 			return btn;
 		},

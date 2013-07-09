@@ -1,5 +1,4 @@
 OJ.importJs('nw.components.NwMarquee');
-OJ.importJs('nw.components.NwView');
 OJ.importJs('oj.fx.OjTween');
 
 OJ.importCss('nw.components.NwCarousel');
