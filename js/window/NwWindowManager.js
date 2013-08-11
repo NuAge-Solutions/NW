@@ -55,11 +55,18 @@ OJ.extendManager(
 		},
 
 
-		'alert' : function(title, message/*, buttons, cancel_label*/){
-			var alrt = this._alert.apply(this, arguments);
+		'alert' : function(message/*, title, buttons, cancel_label*/){
+			var alrt = this.makeAlert.apply(this, arguments);
 
 			// if app is not running natively then just call the regular alert
-			if(isUndefined(NW.alert(alrt))){
+			if(NW.isNative()){
+				var comm = this.comm('alert', [alrt.getContent(), alrt.getTitle(), alrt.getButtons(), alrt.getCancelLabel()]);
+
+//				this._alerts[comm.getId()] = alrt;
+
+				return comm.load();
+			}
+			else{
 				this.show(alrt);
 			}
 
@@ -77,13 +84,27 @@ OJ.extendManager(
 		},
 
 		'browser' : function(url, title/*, width, height*/){
-			var rtrn;
-
-			if(isUndefined(rtrn = NW.browser(url, title, true))){
-				return this._super('NwWindowManager', 'browser', arguments);
+			if(NW.isNative()){
+				return this.comm('browser', Array.array(arguments)).load();
 			}
 
-			return rtrn;
+			return this._super('NwWindowManager', 'browser', arguments);
+		},
+
+		'call' : function(phone){
+			if(NW.isNative()){
+				return this.comm('call', Array.array(arguments)).load();
+			}
+
+			return this._super('NwWindowManager', 'call', arguments);
+		},
+
+		'email' : function(email){
+			if(NW.isNative()){
+				return this.comm('email', [email]).load();
+			}
+
+			return this._super('NwWindowManager', 'email', arguments);
 		},
 
 		'makeActionCard' : function(/*actions, title = null, cancel_lbl = "Cancel", cancel_icon = null*/){
@@ -104,6 +125,14 @@ OJ.extendManager(
 			}
 
 			this._super('NwWindowManager', 'position', arguments);
+		},
+
+		'txt' : function(phone, message){
+			if(NW.isNative()){
+				return this.comm('txt', Array.array(arguments)).load();
+			}
+
+			return this._super('NwWindowManager', 'txt', arguments);
 		}
 	}
 );

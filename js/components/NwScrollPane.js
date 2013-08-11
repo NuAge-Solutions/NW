@@ -28,9 +28,9 @@ OJ.extendComponent(
 			'_constructor' : function(/*layout=new NwColumnLayout(1)*/){
 				var args = arguments;
 
-				if(this._custom_scroll){
-					this._template = 'nw.components.NwScrollPane';
-				}
+//				if(this._custom_scroll){
+//					this._template = 'nw.components.NwScrollPane';
+//				}
 
 				this._super('NwScrollPane', '_constructor', []);
 
@@ -38,23 +38,23 @@ OJ.extendComponent(
 				this._setup();
 
 				// figure out what events to listen for
-				if(this._custom_scroll){
-					this.addEventListener(OjDragEvent.START, this, '_onPaneScrollStart');
-					this.addEventListener(OjDragEvent.DRAG, this, '_onPaneScrollMove');
-					this.addEventListener(OjDragEvent.END, this, '_onPaneScrollEnd');
-				}
-				else{
+//				if(this._custom_scroll){
+////					this.addEventListener(OjDragEvent.START, this, '_onPaneScrollStart');
+////					this.addEventListener(OjDragEvent.DRAG, this, '_onPaneScrollMove');
+//					this.addEventListener(OjDragEvent.END, this, '_onPaneScrollEnd');
+//				}
+//				else{
 					this.addEventListener(OjScrollEvent.SCROLL, this, '_onPaneScroll');
-				}
+//				}
 
 				// setup the elm function overrides
 				this._dims = [];
 
 				this.setLayout(args.length ? args[0] : new NwColumnLayout());
 
-//				if(OJ.isComputer()){
-//					this._multiplier = 2;
-//				}
+				if(OJ.isMobile()){
+					this._multiplier = 4;
+				}
 			},
 
 			'_destructor' : function(){
@@ -85,22 +85,22 @@ OJ.extendComponent(
 			},
 
 			'_onPaneScrollStart' : function(evt){
-				this._scrollX = this.content.getX();
-				this._scrollY = this.content.getY();
+//				this._scrollX = this.content.getX();
+//				this._scrollY = this.content.getY();
 			},
 
 			'_onPaneScrollMove' : function(evt){
-				var max_x = this._canScrollX() ? this.getWidth() - this.content.getWidth() : 0,
-					max_y = this._canScrollY() ? this.getHeight() - this.content.getHeight() : 0;
-				trace(this._scrollY + evt.getDeltaY(), this.getHeight(), this.content.getHeight());
-				this.content.setX(Math.max(Math.min(this._scrollX + evt.getDeltaX(), 0), max_x));
-				this.content.setY(Math.max(Math.min(this._scrollY + evt.getDeltaY(), 0), max_y));
-
-				this.redraw();
+//				var max_x = this._canScrollX() ? this.getWidth() - this.content.getWidth() : 0,
+//					max_y = this._canScrollY() ? this.getHeight() - this.content.getHeight() : 0;
+//				trace(this._scrollY + evt.getDeltaY(), this.getHeight(), this.content.getHeight());
+//				this.content.setX(Math.max(Math.min(this._scrollX + evt.getDeltaX(), 0), max_x));
+//				this.content.setY(Math.max(Math.min(this._scrollY + evt.getDeltaY(), 0), max_y));
+//
+//				this.redraw();
 			},
 
 			'_onPaneScrollEnd' : function(evt){
-
+				trace(evt);
 			},
 
 
@@ -152,8 +152,7 @@ OJ.extendComponent(
 					if(this.footer){
 						if(y + h < this.footer.getY()){
 							if(this._footer.parent()){
-								this.footer.setHeight(this.footer.getHeight());
-								this.footer.removeAllChildren();
+
 							}
 						}
 						else{
@@ -224,29 +223,30 @@ OJ.extendComponent(
 				}
 
 				(this._layout = val).setTarget(this);
-			},
-
-			'getScrollX' : function(){
-				return this._custom_scroll ? this.content.getX() * -1 : this._super('NwScrollPane', 'getScrollX', arguments);
-			},
-			'setScrollX' : function(val){
-				if(this._custom_scroll){
-					return this.content.setX(-1 * val);
-				}
-
-				this._super('NwScrollPane', 'setScrollX', arguments);
-			},
-
-			'getScrollY' : function(){
-				return this._custom_scroll ? this.content.getY() * -1 : this._super('NwScrollPane', 'getScrollY', arguments);
-			},
-			'setScrollY' : function(val){
-				if(this._custom_scroll){
-					return this.content.setY(-1 * val);
-				}
-
-				this._super('NwScrollPane', 'setScrollY', arguments);
 			}
+			//,
+
+//			'getScrollX' : function(){
+//				return this._custom_scroll ? this.content.getX() * -1 : this._super('NwScrollPane', 'getScrollX', arguments);
+//			},
+//			'setScrollX' : function(val){
+//				if(this._custom_scroll){
+//					return this.content.setX(-1 * val);
+//				}
+//
+//				this._super('NwScrollPane', 'setScrollX', arguments);
+//			},
+//
+//			'getScrollY' : function(){
+//				return this._custom_scroll ? this.content.getY() * -1 : this._super('NwScrollPane', 'getScrollY', arguments);
+//			},
+//			'setScrollY' : function(val){
+//				if(this._custom_scroll){
+//					return this.content.setY(-1 * val);
+//				}
+//
+//				this._super('NwScrollPane', 'setScrollY', arguments);
+//			}
 		}
 	),
 	{

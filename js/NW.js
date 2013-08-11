@@ -159,22 +159,6 @@ window.NW = (function Nw(){
 
 
 			// utility functions
-			'alert' : function(alrt){
-				if(this._is_native){
-					var comm = this.comm('alert', [alrt.getTitle(), alrt.getContent(), alrt.getButtons(), alrt.getCancelLabel()]);
-
-					this._alerts[comm.getId()] = alrt;
-
-					return comm.load();
-				}
-			},
-
-			'browser' : function(url/*, title, internal*/){
-				if(this._is_native){
-					return this.comm('browser', Array.array(arguments)).load();
-				}
-			},
-
 			'comm' : function(method, params/*, async=true*/){
 				return new NwRpc(
 					'http://native.web/comm', method, params, OjRpc.JSON,
@@ -185,6 +169,7 @@ window.NW = (function Nw(){
 			'isNative' : function(/*gateway*/){
 				if(arguments.length){
 					if(this._is_native = !isEmpty(this._gateway = arguments[0])){
+						OJ.addCss(['is-native']);
 
 						if(OJ.isReady()){
 							this.comm('ready', []).load();
@@ -199,8 +184,8 @@ window.NW = (function Nw(){
 
 						// override the default safari functionality
 						document.documentElement.style.webkitTouchCallout =
-							document.body.style.webkitTouchCallout =
-							document.body.style.KhtmlUserSelect = 'none';
+						document.body.style.webkitTouchCallout =
+						document.body.style.KhtmlUserSelect = 'none';
 
 						document.documentElement.style.webkitTapHighlightColor = 'rgba(0,0,0,0)';
 					}
@@ -216,17 +201,7 @@ window.NW = (function Nw(){
 				return this._is_native;
 			},
 
-			'call' : function(phone){
-				if(this._is_native){
-					return this.comm('call', [phone]).load();
-				}
-			},
-			
-			'email' : function(address){
-				if(this._is_native){
-					return this.comm('email', [address]).load();
-				}
-			},			
+
 
 			'trace' : function(obj){
 				if(this._is_native){
@@ -238,22 +213,22 @@ window.NW = (function Nw(){
 				// todo: add tracking of timed event
 			},
 
-			'txt' : function(phone, message){
-				if(this._is_native){
-					return this.comm('txt', [phone, message]).load();
-				}
-			},
-
 
 			// these are at the end for compilation reasons
 			'_onOjLoad' : function(evt){
 				OJ.removeEventListener(OjEvent.LOAD, this, '_onOjLoad');
 
+				// detect if native
+				var url = HistoryManager.get();
+
+				if(url.getHost() == 'native.web'){
+					this.isNative(url.getQueryParam('nw-gateway'))
+				}
+
 				OJ.importJs('nw.app.NwAppManager');
 				OJ.importJs('nw.events.NwEvent');
 				OJ.importJs('nw.net.NwRpc');
 				OJ.importJs('oj.events.OjOrientationEvent');
-
 			},
 
 			'_onOjReady' : function(evt){

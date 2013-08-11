@@ -2,10 +2,10 @@
 	display: block;
 	overflow: auto;
 }
-.is-mobile .NwScrollPane {
-	overflow: hidden;
-	-webkit-overflow-scrolling: auto;
-}
+/*.is-mobile .NwScrollPane {*/
+	/*overflow: hidden;*/
+	/*-webkit-overflow-scrolling: auto;*/
+/*}*/
 	.NwScrollPane > .content {
 		min-width: 100%;
 		min-height: 100%
