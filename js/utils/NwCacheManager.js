@@ -4,13 +4,13 @@ OJ.importJs('oj.utils.OjCacheManager');
 'use strict';
 
 OJ.extendManager(
-	'CacheManager', OjCacheManager, 'NwCacheManager',
+	'CacheManager', 'NwCacheManager', [OjCacheManager],
 	{
 		'_is_native' : false,
 
 
 		'_constructor' : function(manager){
-			this._super('NwCacheManager', '_constructor', []);
+			this._super(OjCacheManager, '_constructor', []);
 
 			// determine which set of functions to use based on the systems capabilities
 			if(this._is_native = NW.isNative()){

@@ -3,14 +3,14 @@ OJ.importJs('oj.form.OjSelector');
 'use strict';
 
 OJ.extendComponent(
-	OjSelector, 'NwSelector',
+	'NwSelector', [OjSelector],
 	{
 		'_props_' : {
 			'summaryRenderer' : null
 		},
 
 		'_selectOption' : function(option, data){
-			this._super('NwSelector', '_selectOption', arguments);
+			this._super(OjSelector, '_selectOption', arguments);
 
 			if(this.summary){
 				this.summary.setData(this._value.clone());
@@ -18,7 +18,7 @@ OJ.extendComponent(
 		},
 
 		'_unselectOption' : function(option, data){
-			this._super('NwSelector', '_unselectOption', arguments);
+			this._super(OjSelector, '_unselectOption', arguments);
 
 			if(this.summary){
 				this.summary.setData(this._value.clone());

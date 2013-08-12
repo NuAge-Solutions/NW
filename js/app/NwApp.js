@@ -17,7 +17,7 @@ OJ.importCss('nw.app.NwApp');
 'use strict';
 
 OJ.extendClass(
-	OjView, 'NwApp',
+	'NwApp', [OjView],
 	{
 		'_get_props_' : {
 			'maxWidth'  : null,
@@ -41,7 +41,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(/*properties*/){
-			this._super('NwApp', '_constructor', arguments);
+			this._super(OjView, '_constructor', arguments);
 
 			// setup the url
 			var url = HistoryManager.get();

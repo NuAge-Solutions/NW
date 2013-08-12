@@ -5,7 +5,7 @@ OJ.importJs('oj.dom.OjElement');
 'use strict';
 
 OJ.extendClass(
-	OjObject, 'NwProperty',
+	'NwProperty', [OjObject],
 	{
 		'_props_' : {
 			'default'         : null,
@@ -26,7 +26,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(/*settings*/){
-			this._super('NwDataProperty', '_constructor', []);
+			this._super(OjObject, '_constructor', []);
 
 			if(arguments.length){
 				var key, func, settings = arguments[0];

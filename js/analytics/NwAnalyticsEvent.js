@@ -4,7 +4,7 @@ OJ.importJs('oj.events.OjEvent');
 'use strict';
 
 OJ.extendClass(
-	OjEvent, 'NwAnalyticsEvent',
+	'NwAnalyticsEvent', [OjEvent],
 	{
 		'_get_props_' : {
 			'data'  : null
@@ -12,7 +12,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(type, data){
-			this._super('NwAnalyticsEvent', '_constructor', [type, false, true]);
+			this._super(OjEvent, '_constructor', [type, false, true]);
 
 			this._data = data;
 		}

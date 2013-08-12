@@ -8,7 +8,7 @@ OJ.importCss('nw.social.NwFacebook');
 'use strict';
 
 OJ.extendManager(
-	'Facebook', OjActionable, 'NwFacebook',
+	'Facebook', 'NwFacebook', [OjActionable],
 	{
 		'LOGIN'      : 'onFbLogin',
 		'LOGIN_FAIL' : 'onFbLoginFail',
@@ -107,7 +107,7 @@ OJ.extendManager(
 
 
 		'_constructor' : function(){
-			this._super('NwFacebook', '_constructor', arguments);
+			this._super(OjActionable, '_constructor', arguments);
 
 			// get the session data
 			this._session = CacheManager.getData('fbSession');
@@ -144,7 +144,7 @@ OJ.extendManager(
 			NW.removeEventListener(this.LOGOUT, this, '_onLogout');
 			NW.removeEventListener(this.UPDATE, this, '_onUpdate');
 
-			return this._super('NwFacebook', '_destructor', arguments);
+			return this._super(OjActionable, '_destructor', arguments);
 		},
 
 

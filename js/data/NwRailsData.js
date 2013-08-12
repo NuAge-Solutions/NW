@@ -6,24 +6,24 @@ OJ.importJs('nw.data.properties.NwNumberProperty');
 'use strict';
 
 OJ.extendClass(
-	NwData, 'NwRailsData',
+	'NwRailsData', [NwData],
 	{
 		'_getDeleteRequest' : function(method/*, params*/){
-			var ldr = this._super('NwRailsData', '_getDeleteRequest', [method, arguments.length > 1 ? arguments[1] : null]);
+			var ldr = this._super(NwData, '_getDeleteRequest', [method, arguments.length > 1 ? arguments[1] : null]);
 			ldr.getRequest().setContentType(OjUrlRequest.QUERY_STRING);
 
 			return ldr;
 		},
 
 		'_getLoadRequest' : function(method/*, params*/){
-			var ldr = this._super('NwRailsData', '_getLoadRequest', [method, arguments.length > 1 ? arguments[1] : null]);
+			var ldr = this._super(NwData, '_getLoadRequest', [method, arguments.length > 1 ? arguments[1] : null]);
 			ldr.getRequest().setContentType(OjUrlRequest.QUERY_STRING);
 
 			return ldr;
 		},
 
 		'_getSaveRequest' : function(method/*, params*/){
-			var ldr = this._super('NwRailsData', '_getSaveRequest', arguments);
+			var ldr = this._super(NwData, '_getSaveRequest', arguments);
 			ldr.getRequest().setContentType(OjUrlRequest.QUERY_STRING);
 
 			return ldr;
@@ -37,7 +37,7 @@ OJ.extendClass(
 				return null;
 			}
 
-			return this._super('NwRailsData', '_translateSaveParam', arguments);
+			return this._super(NwData, '_translateSaveParam', arguments);
 		}
 	},
 	{

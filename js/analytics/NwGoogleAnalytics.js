@@ -4,7 +4,7 @@ OJ.importJs('nw.analytics.NwAnalyticsEngine');
 'use strict';
 
 OJ.extendClass(
-	NwAnalyticsEngine, 'NwGoogleAnalytics',
+	'NwGoogleAnalytics', [NwAnalyticsEngine],
 	{
 		'_get_props_' : {
 			'key' : null,
@@ -18,7 +18,7 @@ OJ.extendClass(
 			this._key = key;
 			this._namespace = namespace;
 
-			this._super('NwGoogleAnalytics', '_constructor', arguments);
+			this._super(NwAnalyticsEngine, '_constructor', arguments);
 		},
 
 		'_call' : function(){
@@ -43,7 +43,7 @@ OJ.extendClass(
 		},
 
 		'_loadLibrary' : function(){
-			this._super('NwGoogleAnalytics', '_loadLibrary', []);
+			this._super(NwAnalyticsEngine, '_loadLibrary', []);
 
 			var w = window;
 			w.GoogleAnalyticsObject = 'ga';

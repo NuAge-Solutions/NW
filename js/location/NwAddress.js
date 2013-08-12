@@ -4,7 +4,7 @@ OJ.importJs('nw.data.NwData');
 'use strict';
 
 OJ.extendClass(
-	NwData, 'NwAddress',
+	'NwAddress', [NwData],
 	{
 
 	},

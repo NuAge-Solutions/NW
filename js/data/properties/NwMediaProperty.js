@@ -4,7 +4,7 @@ OJ.importJs('nw.data.properties.NwFileProperty');
 'use strict';
 
 OJ.extendClass(
-	NwFileProperty, 'NwMediaProperty',
+	'NwMediaProperty', [NwFileProperty],
 	{
 		'_props_' : {
 			'formats' : null,
@@ -15,7 +15,7 @@ OJ.extendClass(
 		'_constructor' : function(/*settings*/){
 			this._formats = [];
 
-			this._super('NwMediaProperty', '_constructor', arguments);
+			this._super(NwFileProperty, '_constructor', arguments);
 		},
 
 		'_setupFormatFunc' : function(obj, key, u_key, format){
@@ -68,7 +68,7 @@ OJ.extendClass(
 		},
 
 		'setup' : function(obj, key, u_key){
-			this._super('NwMediaProperty', 'setup', arguments);
+			this._super(NwFileProperty, 'setup', arguments);
 
 			var ln = this._formats.length;
 

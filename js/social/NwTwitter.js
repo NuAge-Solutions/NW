@@ -6,7 +6,7 @@ OJ.importCss('nw.social.NwTwitter');
 'use strict';
 
 OJ.extendManager(
-	'Twitter', OjActionable, 'NwTwitter',
+	'Twitter', 'NwTwitter', [OjActionable],
 	{
 		'_props_' : {
 			'user' : null

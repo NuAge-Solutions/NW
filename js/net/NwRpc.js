@@ -1,9 +1,10 @@
 OJ.importJs('oj.net.OjRpc');
 
+
 'use strict';
 
 OJ.extendClass(
-	OjRpc, 'NwRpc',
+	'NwRpc', [OjRpc],
 	{
 		'_get_props_' : {
 			'gateway' : null
@@ -11,7 +12,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(url, method, params/*, content_type, async*/){
-			this._super('NwRpc', '_constructor', arguments);
+			this._super(OjRpc, '_constructor', arguments);
 
 			this._request.getData()['gateway'] = NW.getGateway();
 		}

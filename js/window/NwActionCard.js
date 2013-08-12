@@ -6,7 +6,7 @@ OJ.importCss('nw.window.NwActionCard');
 "use strict";
 
 OJ.extendClass(
-	OjAlert, 'NwActionCard',
+	'NwActionCard', [OjAlert],
 	{
 		'_props_' : {
 			'actions'       : null,
@@ -20,7 +20,7 @@ OJ.extendClass(
 			var args = arguments,
 				ln = args.length;
 
-			this._super('NwActionCard', '_constructor', []);
+			this._super(OjAlert, '_constructor', []);
 
 			// process arguments
 			if(ln){

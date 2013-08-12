@@ -4,7 +4,7 @@ OJ.importJs('nw.data.properties.NwTextProperty');
 'use strict';
 
 OJ.extendClass(
-	NwTextProperty, 'NwEmailProperty',
+	'NwEmailProperty', [NwTextProperty],
 	{
 		'_props_' :{
 			'maxLength' : 254,

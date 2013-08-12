@@ -9,7 +9,7 @@ OJ.importCss('nw.components.NwScrollPane');
 'use strict';
 
 OJ.extendComponent(
-	OjView, 'NwScrollPane',
+	'NwScrollPane', [OjView],
 	OJ.implementInterface(
 		OjICollectionComponent,
 		{
@@ -32,7 +32,7 @@ OJ.extendComponent(
 //					this._template = 'nw.components.NwScrollPane';
 //				}
 
-				this._super('NwScrollPane', '_constructor', []);
+				this._super(OjView, '_constructor', []);
 
 				// run the collection component setup
 				this._setup();
@@ -61,7 +61,7 @@ OJ.extendComponent(
 				// run the collection component teardown
 				this._teardown();
 
-				this._super('NwScrollPane', '_destructor', arguments);
+				this._super(OjView, '_destructor', arguments);
 			},
 
 
@@ -105,19 +105,19 @@ OJ.extendComponent(
 
 
 			'addEventListener' : function(type, target, func){
-				this._super('NwScrollPane', 'addEventListener', arguments);
+				this._super(OjView, 'addEventListener', arguments);
 
 				this._addItemListener(type);
 			},
 
 			'removeEventListener' : function(type, target, func){
-				this._super('NwScrollPane', 'removeEventListener', arguments);
+				this._super(OjView, 'removeEventListener', arguments);
 
 				this._removeItemListener(type);
 			},
 
 			'redraw' : function(){
-				if(this._super('NwScrollPane', 'redraw', arguments)){
+				if(this._super(OjView, 'redraw', arguments)){
 					// redraw the visible items
 					var container = this.container,
 						y = this.getScrollY(), h = this.getHeight(),
@@ -184,7 +184,7 @@ OJ.extendComponent(
 
 			// Event Handler Functions
 			'_onItemAdd' : function(evt){
-				this._super('NwScrollPane', '_onItemAdd', arguments);
+				this._super(OjView, '_onItemAdd', arguments);
 
 				this._onItemChange(evt);
 			},
@@ -198,19 +198,19 @@ OJ.extendComponent(
 			},
 
 			'_onItemMove' : function(evt){
-				this._super('NwScrollPane', '_onItemMove', arguments);
+				this._super(OjView, '_onItemMove', arguments);
 
 				this._onItemChange(evt);
 			},
 
 			'_onItemRemove' : function(evt){
-				this._super('NwScrollPane', '_onItemRemove', arguments);
+				this._super(OjView, '_onItemRemove', arguments);
 
 				this._onItemChange(evt);
 			},
 
 			'_onItemReplace' : function(evt){
-				this._super('NwScrollPane', '_onItemReplace', arguments);
+				this._super(OjView, '_onItemReplace', arguments);
 
 				this._onItemChange(evt);
 			},
@@ -227,25 +227,25 @@ OJ.extendComponent(
 			//,
 
 //			'getScrollX' : function(){
-//				return this._custom_scroll ? this.content.getX() * -1 : this._super('NwScrollPane', 'getScrollX', arguments);
+//				return this._custom_scroll ? this.content.getX() * -1 : this._super(OjView, 'getScrollX', arguments);
 //			},
 //			'setScrollX' : function(val){
 //				if(this._custom_scroll){
 //					return this.content.setX(-1 * val);
 //				}
 //
-//				this._super('NwScrollPane', 'setScrollX', arguments);
+//				this._super(OjView, 'setScrollX', arguments);
 //			},
 //
 //			'getScrollY' : function(){
-//				return this._custom_scroll ? this.content.getY() * -1 : this._super('NwScrollPane', 'getScrollY', arguments);
+//				return this._custom_scroll ? this.content.getY() * -1 : this._super(OjView, 'getScrollY', arguments);
 //			},
 //			'setScrollY' : function(val){
 //				if(this._custom_scroll){
 //					return this.content.setY(-1 * val);
 //				}
 //
-//				this._super('NwScrollPane', 'setScrollY', arguments);
+//				this._super(OjView, 'setScrollY', arguments);
 //			}
 		}
 	),

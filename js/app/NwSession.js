@@ -5,7 +5,7 @@ OJ.importJs('oj.timer.OjTimer');
 'use strict';
 
 OJ.extendClass(
-	OjActionable, 'NwSession',
+	'NwSession', [OjActionable],
 	{
 		'_props_' : {
 			'data'  : null,
@@ -17,7 +17,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(/*token, data*/){
-			this._super('NwSession', '_constructor', []);
+			this._super(OjActionable, '_constructor', []);
 
 			this._data = {};
 
@@ -35,7 +35,7 @@ OJ.extendClass(
 
 		// Utility Functions
 		'exportData' : function(){
-			var obj = this._super('NwSession', 'exportData', arguments);
+			var obj = this._super(OjActionable, 'exportData', arguments);
 
 			obj.data = this._data ? OjObject.exportData(this._data) : {};
 			obj.token = this._token;

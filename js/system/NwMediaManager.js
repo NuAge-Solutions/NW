@@ -2,7 +2,7 @@ OJ.importJs('oj.events.OjActionable');
 
 
 OJ.extendManager(
-	'MediaManager', OjActionable, 'NwMediaManager',
+	'MediaManager', 'NwMediaManager', [OjActionable],
 	{
 		'mediaPicker' : function(){
 

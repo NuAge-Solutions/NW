@@ -5,7 +5,7 @@ OJ.importJs('oj.events.OjActionable');
 'use strict';
 
 OJ.extendClass(
-	OjActionable, 'NwLayout',
+	'NwLayout', [OjActionable],
 	{
 		'_props_' : {
 			'hSpacing' : 0,
@@ -17,7 +17,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(){
-			this._super('NwLayout', '_constructor', []);
+			this._super(OjActionable, '_constructor', []);
 
 			this._layouts = {};
 		},

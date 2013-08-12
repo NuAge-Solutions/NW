@@ -11,7 +11,7 @@ OJ.importJs('oj.events.OjActionable');
 'use strict';
 
 OJ.extendClass(
-	OjActionable, 'NwData',
+	'NwData', [OjActionable],
 	{
 		// Compiler Functions
 		'_post_compile_' : function(context){
@@ -46,7 +46,7 @@ OJ.extendClass(
 
 		// Construction & Destruction Functions
 		'_constructor' : function(/*data, mode*/){
-			this._super('NwData', '_constructor', []);
+			this._super(OjActionable, '_constructor', []);
 
 			this._data = {};
 
@@ -359,7 +359,7 @@ OJ.extendClass(
 
 		// Utility Functions
 		'clone' : function(){
-			var obj = this._super('NwData', 'clone', []);
+			var obj = this._super(OjActionable, 'clone', []);
 
 			obj.importData(this._data, NwData.CLONE);
 
@@ -384,7 +384,7 @@ OJ.extendClass(
 				map = this._static.EXPORT_MAP;
 
 			if(is_default){
-				obj = this._super('NwData', 'exportData', arguments);
+				obj = this._super(OjActionable, 'exportData', arguments);
 			}
 			else{
 				obj = {};

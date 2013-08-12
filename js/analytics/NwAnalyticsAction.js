@@ -4,7 +4,7 @@ OJ.importJs('nw.analytics.NwAnalyticsData');
 'use strict';
 
 OJ.extendClass(
-	NwAnalyticsData, 'NwAnalyticsAction',
+	'NwAnalyticsAction', [NwAnalyticsData],
 	{
 		'_props_' : {
 			'category' : null,
@@ -15,7 +15,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(name/*, category, params, is_bounce*/){
-			this._super('NwAnalyticsAction', '_constructor', []);
+			this._super(NwAnalyticsData, '_constructor', []);
 
 			this.setName(name);
 

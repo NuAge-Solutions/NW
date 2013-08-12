@@ -7,7 +7,7 @@ OJ.importJs('oj.data.OjCollection');
 'use strict';
 
 OJ.extendClass(
-	NwObjectProperty, 'NwReferenceProperty',
+	'NwReferenceProperty', [NwObjectProperty],
 	{
 		'_props_' : {
 			'class'        : NwData,
@@ -16,7 +16,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(cls /*, properties*/){
-			this._super('NwReferenceProperty', '_constructor', arguments.length > 1 ? [arguments[1]] : []);
+			this._super(NwObjectProperty, '_constructor', arguments.length > 1 ? [arguments[1]] : []);
 
 			this.setClass(cls);
 		},

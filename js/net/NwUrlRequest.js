@@ -4,7 +4,7 @@ OJ.importJs('oj.net.OjUrlRequest');
 'use strict';
 
 OJ.extendClass(
-	OjUrlRequest, 'NwUrlRequest',
+	'NwUrlRequest', [OjUrlRequest],
 	{
 		'_props_' : {
 			'priority' : 0,
@@ -13,7 +13,7 @@ OJ.extendClass(
 		},
 
 		'_constructor' : function(){
-			this._super('NwUrlRequest', '_constructor', arguments);
+			this._super(OjUrlRequest, '_constructor', arguments);
 
 			this.setContentType(OjUrlRequest.JSON);
 		}

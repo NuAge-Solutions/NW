@@ -6,13 +6,13 @@ OJ.importJs('oj.events.OjActionable');
 'use strict';
 
 OJ.extendClass(
-	OjActionable, 'NwAnalyticsEngine',
+	'NwAnalyticsEngine', [OjActionable],
 	{
 		'_queue' : null,  '_processing' : false,
 
 
 		'_constructor' : function(){
-			this._super('NwAnalyticsEngine', '_constructor', []);
+			this._super(OjActionable, '_constructor', []);
 
 			this._queue = new OjCollection();
 

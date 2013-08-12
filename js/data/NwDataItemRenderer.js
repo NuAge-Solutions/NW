@@ -4,7 +4,7 @@ OJ.importJs('oj.components.OjItemRenderer');
 'use strict';
 
 OJ.extendClass(
-	OjItemRenderer, 'NwDataItemRenderer',
+	'NwDataItemRenderer', [OjItemRenderer],
 	{
 		'_onDataChange' : function(evt){
 			this._redrawData();
@@ -16,7 +16,7 @@ OJ.extendClass(
 				this._data.removeEventListener(NwDataEvent.CHANGE, this, '_onDataChange');
 			}
 
-			this._super('NwDataItemRenderer', 'setData', arguments);
+			this._super(OjItemRenderer, 'setData', arguments);
 
 			if(this._data){
 				this._data.addEventListener(NwDataEvent.CHANGE, this, '_onDataChange');

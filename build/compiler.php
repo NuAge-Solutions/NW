@@ -520,7 +520,7 @@
 
 	// compile the js
 	$js = compileJs(mkPath($destination, 'js'), $namespace);
-
+	trace(mkPath($destination, 'js'));
 	// compile the css
 	file_put_contents($path = mkPath($source, $namespace . '.css'), compileCss(mkPath($destination, 'css'), $js, $namespace));
 

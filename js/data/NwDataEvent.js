@@ -4,7 +4,7 @@ OJ.importJs('oj.events.OjEvent');
 'use strict';
 
 OJ.extendClass(
-	OjEvent, 'NwDataEvent',
+	'NwDataEvent', [OjEvent],
 	{
 		'_get_props_' : {
 			'data'    : null,
@@ -31,7 +31,7 @@ OJ.extendClass(
 				}
 			}
 
-			this._super('NwDataEvent', '_constructor', [type, bubbles, cancelable]);
+			this._super(OjEvent, '_constructor', [type, bubbles, cancelable]);
 		}
 	},
 	{

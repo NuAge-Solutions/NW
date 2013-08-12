@@ -4,7 +4,7 @@ OJ.importJs('nw.data.properties.NwProperty');
 'use strict';
 
 OJ.extendClass(
-	NwProperty, 'NwTextProperty',
+	'NwTextProperty', [NwProperty],
 	{
 		'_props_' : {
 			'minLength' : 0,
@@ -40,7 +40,7 @@ OJ.extendClass(
 		},
 
 		'makeInput' : function(/*dom_elm|input*/){
-			var input = this._super('NwTextProperty', 'makeInput', arguments);
+			var input = this._super(NwProperty, 'makeInput', arguments);
 
 			input.setMinLength(this._minLength);
 			input.setMaxLength(this._maxLength);

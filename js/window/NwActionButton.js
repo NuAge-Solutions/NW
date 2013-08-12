@@ -7,13 +7,13 @@ OJ.importCss('nw.window.NwActionButton');
 'use strict';
 
 OJ.extendComponent(
-	OjItemRenderer, 'NwActionButton',
+	'NwActionButton', [OjItemRenderer],
 	{
 		'_template' : 'nw.window.NwActionButton',
 
 
 		'_redrawData' : function(){
-			if(this._super('NwActionButton', '_redrawData', arguments)){
+			if(this._super(OjItemRenderer, '_redrawData', arguments)){
 				this.btn.setText(this._data);
 
 				return true;

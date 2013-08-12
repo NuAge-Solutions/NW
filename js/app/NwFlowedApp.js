@@ -8,7 +8,7 @@ OJ.importJs('oj.components.OjStack');
 'use strict';
 
 OJ.extendClass(
-	NwApp, 'NwFlowedApp',
+	'NwFlowedApp', [NwApp],
 	{
 		'nav' : null,  '_routing' : null,  'stack' : null,
 

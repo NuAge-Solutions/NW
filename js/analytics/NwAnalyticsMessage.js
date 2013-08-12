@@ -4,7 +4,7 @@ OJ.importJs('nw.analytics.NwAnalyticsData');
 'use strict';
 
 OJ.extendClass(
-	NwAnalyticsData, 'NwAnalyticsMessage',
+	'NwAnalyticsMessage', [NwAnalyticsData],
 	{
 		'_props_' : {
 
@@ -12,7 +12,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(){
-			this._super('NwAnalyticsMessage', '_constructor', []);
+			this._super(NwAnalyticsData, '_constructor', []);
 		}
 	}
 );

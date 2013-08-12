@@ -7,7 +7,7 @@ OJ.importJs('nw.window.NwActionButton');
 'use strict';
 
 OJ.extendManager(
-	'WindowManager', OjWindowManager, 'NwWindowManager',
+	'WindowManager', 'NwWindowManager', [OjWindowManager],
 	{
 		'_props_' : {
 			'actionCardClass' : NwActionCard
@@ -27,7 +27,7 @@ OJ.extendManager(
 		},
 
 		'_transIn' : function(modal){
-			this._super('NwWindowManager', '_transIn', arguments);
+			this._super(OjWindowManager, '_transIn', arguments);
 
 			if(this._isMobileAC(modal)){
 				var h = modal.pane.getHeight(),
@@ -42,7 +42,7 @@ OJ.extendManager(
 		},
 
 		'_transOut' : function(modal){
-			this._super('NwWindowManager', '_transOut', arguments);
+			this._super(OjWindowManager, '_transOut', arguments);
 
 			if(this._isMobileAC(modal)){
 				var h = modal.pane.getHeight(),
@@ -88,7 +88,7 @@ OJ.extendManager(
 				return this.comm('browser', Array.array(arguments)).load();
 			}
 
-			return this._super('NwWindowManager', 'browser', arguments);
+			return this._super(OjWindowManager, 'browser', arguments);
 		},
 
 		'call' : function(phone){
@@ -96,7 +96,7 @@ OJ.extendManager(
 				return this.comm('call', Array.array(arguments)).load();
 			}
 
-			return this._super('NwWindowManager', 'call', arguments);
+			return this._super(OjWindowManager, 'call', arguments);
 		},
 
 		'email' : function(email){
@@ -104,7 +104,7 @@ OJ.extendManager(
 				return this.comm('email', [email]).load();
 			}
 
-			return this._super('NwWindowManager', 'email', arguments);
+			return this._super(OjWindowManager, 'email', arguments);
 		},
 
 		'makeActionCard' : function(/*actions, title = null, cancel_lbl = "Cancel", cancel_icon = null*/){
@@ -124,7 +124,7 @@ OJ.extendManager(
 				return;
 			}
 
-			this._super('NwWindowManager', 'position', arguments);
+			this._super(OjWindowManager, 'position', arguments);
 		},
 
 		'txt' : function(phone, message){
@@ -132,7 +132,7 @@ OJ.extendManager(
 				return this.comm('txt', Array.array(arguments)).load();
 			}
 
-			return this._super('NwWindowManager', 'txt', arguments);
+			return this._super(OjWindowManager, 'txt', arguments);
 		}
 	}
 );

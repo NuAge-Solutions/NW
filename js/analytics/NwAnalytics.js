@@ -8,10 +8,10 @@ OJ.importJs('nw.analytics.NwAnalyticsView');
 'use strict';
 
 OJ.extendManager(
-	'Analytics', OjActionable, 'NwAnalytics',
+	'Analytics', 'NwAnalytics', [OjActionable],
 	{
 		'_constructor' : function(/*manager*/){
-			this._super('NwAnalytics', '_constructor', []);
+			this._super(OjActionable, '_constructor', []);
 		},
 
 		'enableEngine' : function(engine){

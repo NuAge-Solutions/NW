@@ -5,7 +5,7 @@ OJ.importJs('nw.data.NwUser');
 'use strict';
 
 OJ.extendClass(
-	NwRailsData, 'NwRailsUser',
+	'NwRailsUser', [NwRailsData],
 	OJ.implementInterface(
 		NwIUser,
 		{}

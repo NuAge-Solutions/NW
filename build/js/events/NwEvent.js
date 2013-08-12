@@ -1,1 +1,0 @@
-OJ.importJs("oj.events.OjEvent");"use strict";OJ.extendClass(OjEvent,"NwEvent",{_get_props_:{data:null},_constructor:function(a){var b=arguments.length;this._super("NwEvent","_constructor",b>3?[].slice.call(arguments,0,3):arguments);if(b>3){this._data=arguments[3]}}});

@@ -4,7 +4,7 @@ OJ.importJs('oj.net.OjUrlLoader');
 'use strict';
 
 OJ.extendClass(
-	OjUrlLoader, 'NwUrlLoader',
+	'NwUrlLoader', [OjUrlLoader],
 	{
 		'_async' : true,  '_is_multipart' : false,
 
@@ -15,7 +15,7 @@ OJ.extendClass(
 				return this._load();
 			}
 
-			this._super('NwUrlLoader', '_loadMultiPart', arguments);
+			this._super(OjUrlLoader, '_loadMultiPart', arguments);
 		},
 
 		'_xhrFormat' : function(){
@@ -25,7 +25,7 @@ OJ.extendClass(
 				return;
 			}
 
-			this._super('NwUrlLoader', '_xhrFormat', arguments);
+			this._super(OjUrlLoader, '_xhrFormat', arguments);
 		},
 
 		'_xhrOpen' : function(){
@@ -33,7 +33,7 @@ OJ.extendClass(
 				return this._xhr.open(OjUrlRequest.POST, 'http://native.web/request', this._async);
 			}
 
-			this._super('NwUrlLoader', '_xhrOpen', arguments);
+			this._super(OjUrlLoader, '_xhrOpen', arguments);
 		},
 
 		'_xhrSend' : function(){
@@ -47,7 +47,7 @@ OJ.extendClass(
 				}));
 			}
 
-			this._super('NwUrlLoader', '_xhrSend', arguments);
+			this._super(OjUrlLoader, '_xhrSend', arguments);
 		}
 	}
 );

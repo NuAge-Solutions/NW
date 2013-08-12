@@ -4,7 +4,7 @@ OJ.importJs('nw.analytics.NwAnalyticsData');
 'use strict';
 
 OJ.extendClass(
-	NwAnalyticsData, 'NwAnalyticsView',
+	'NwAnalyticsView', [NwAnalyticsData],
 	{
 		'_props_' : {
 			'title' : null,
@@ -13,7 +13,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(/*path, title*/){
-			this._super('NwAnalyticsView', '_constructor', []);
+			this._super(NwAnalyticsData, '_constructor', []);
 
 			var args = arguments,
 				ln = args.length;

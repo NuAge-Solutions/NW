@@ -4,7 +4,7 @@ OJ.importJs('oj.data.OjObject');
 'use strict';
 
 OJ.extendClass(
-	OjObject, 'NwAnalyticsData',
+	'NwAnalyticsData', [OjObject],
 	{
 		'_props_' : {
 			'date' : null
@@ -12,7 +12,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(){
-			this._super('NwAnalyticsData', '_constructor', []);
+			this._super(OjObject, '_constructor', []);
 
 			this._date = new Date();
 		}

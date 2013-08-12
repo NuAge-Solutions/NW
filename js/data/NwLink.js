@@ -1,13 +1,13 @@
 'use strict';
 
 OJ.extendClass(
-	OjActionable, 'NwLinkData',
+	'NwLinkData', [OjActionable],
 	{
 		'_active' : false, '_url' : null,  '_title' : null,  '_icon' : null,
 
 
 		'_constructor' : function(/*title, url, icon*/){
-			this._super('NwLinkData', '_constructor', []);
+			this._super(OjActionable, '_constructor', []);
 
 			var ln = arguments.length;
 

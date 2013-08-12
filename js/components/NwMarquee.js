@@ -6,7 +6,7 @@ OJ.importCss('nw.components.NwMarquee');
 'use strict';
 
 OJ.extendClass(
-	OjComponent, 'NwMarquee',
+	'NwMarquee', [OjComponent],
 	{
 		// properties & vars
 		'_props_' : {
@@ -25,7 +25,7 @@ OJ.extendClass(
 
 		// Construction & Destruction Functions
 		'_constructor' : function(/*items, transition, item_renderer*/){
-			this._super('NwMarquee', '_constructor', []);
+			this._super(OjComponent, '_constructor', []);
 
 			var args = arguments,
 				ln = args.length;
@@ -61,7 +61,7 @@ OJ.extendClass(
 		'_destructor' : function(){
 			this._unset('_timer');
 
-			return this._super('NwMarquee', '_destructor', arguments);
+			return this._super(OjComponent, '_destructor', arguments);
 		},
 
 
@@ -70,7 +70,7 @@ OJ.extendClass(
 				return;
 			}
 
-			this._super('NwMarquee', '_setIsDisplayed', arguments);
+			this._super(OjComponent, '_setIsDisplayed', arguments);
 
 			if(this._is_displayed){
 				if(this._timer.isPaused()){
@@ -231,7 +231,7 @@ OJ.extendClass(
 				return;
 			}
 
-			this._super('NwMarquee', 'setIsDisabled', arguments);
+			this._super(OjComponent, 'setIsDisabled', arguments);
 
 			if(this._isDisabled && this._timer.isRunning()){
 				this._timer.pause();

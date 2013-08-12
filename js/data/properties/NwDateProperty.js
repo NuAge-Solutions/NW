@@ -4,7 +4,7 @@ OJ.importJs('nw.data.properties.NwProperty');
 'use strict';
 
 OJ.extendClass(
-	NwProperty, 'NwDateProperty',
+	'NwDateProperty', [NwProperty],
 	{
 		'_max_date' : null,  '_min_date' : null,
 

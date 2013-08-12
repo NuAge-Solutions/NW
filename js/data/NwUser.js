@@ -32,7 +32,8 @@ window.NwIUser = {
 };
 
 OJ.extendClass(
-	NwData, 'NwUser', NwIUser,
+	'NwUser', [NwData],
+	NwIUser,
 	{
 		'DEFINITION' : {
 			'id'            : new NwNumberProperty(),

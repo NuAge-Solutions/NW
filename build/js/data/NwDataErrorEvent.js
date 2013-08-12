@@ -1,1 +1,0 @@
-OJ.importJs("oj.events.OjErrorEvent");"use strict";OJ.extendClass(OjErrorEvent,"NwDataErrorEvent",{_get_props_:{data:null},_constructor:function(b){var a=Array.array(arguments),c=a.length;if(c>1){this._data=a[1];a.splice(1,1)}this._super("NwDataErrorEvent","_constructor",a)}},{DELETE:"onDataDeleteError",LOAD:"onDataLoadError",SAVE:"onDataSaveError"});

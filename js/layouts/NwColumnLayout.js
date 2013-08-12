@@ -4,7 +4,7 @@ OJ.importJs('nw.layouts.NwLayout');
 'use strict';
 
 OJ.extendClass(
-	NwLayout, 'NwColumnLayout',
+	'NwColumnLayout', [NwLayout],
 	{
 		'_props_' : {
 			'numCols' : 1
@@ -14,7 +14,7 @@ OJ.extendClass(
 
 
 		'_constructor' : function(/*num_cols = 1*/){
-			this._super('NwColumnLayout', '_constructor', []);
+			this._super(NwLayout, '_constructor', []);
 
 			this._col_widths = [0];
 
@@ -27,7 +27,7 @@ OJ.extendClass(
 
 
 		'_recalculateLayoutItem' : function(index, item){
-			var layout = this._super('NwColumnLayout', '_recalculateLayoutItem', arguments),
+			var layout = this._super(NwLayout, '_recalculateLayoutItem', arguments),
 				x, y;
 
 			// detect if this is the first item

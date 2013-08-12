@@ -7,13 +7,13 @@ OJ.importJs('oj.nav.OjNavStack');
 'use strict';
 
 OJ.extendClass(
-	NwApp, 'NwTabbedApp',
+	'NwTabbedApp', [NwApp],
 	{
 		'_routing' : null,
 
 
 		'_constructor' : function(){
-			this._super('NwTabbedApp', '_constructor', arguments);
+			this._super(NwApp, '_constructor', arguments);
 
 			// setup the stack
 			if(!this.stack){
@@ -51,7 +51,7 @@ OJ.extendClass(
 
 
 		'init' : function(){
-			var session = this._super('NwTabbedApp', 'init', arguments);
+			var session = this._super(NwApp, 'init', arguments);
 
 			this.nav.setStack(this.stack);
 

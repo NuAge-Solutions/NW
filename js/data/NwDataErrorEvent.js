@@ -4,7 +4,7 @@ OJ.importJs('oj.events.OjErrorEvent');
 'use strict';
 
 OJ.extendClass(
-	OjErrorEvent, 'NwDataErrorEvent',
+	'NwDataErrorEvent', [OjErrorEvent],
 	{
 		'_get_props_' : {
 			'data'    : null
@@ -21,7 +21,7 @@ OJ.extendClass(
 				args.splice(1, 1);
 			}
 
-			this._super('NwDataErrorEvent', '_constructor', args);
+			this._super(OjErrorEvent, '_constructor', args);
 		}
 	},
 	{

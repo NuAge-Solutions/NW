@@ -7,7 +7,7 @@ OJ.importCss('nw.components.NwCarousel');
 'use strict';
 
 OJ.extendClass(
-	NwMarquee, 'NwCarousel',
+	'NwCarousel', [NwMarquee],
 	{
 		'_props_' : {
 			'viewSize' : 50
@@ -21,7 +21,7 @@ OJ.extendClass(
 		'_constructor' : function(/*data, item_renderer*/){
 			this._index = {};
 
-			this._super('NwCarousel', '_constructor', arguments);
+			this._super(NwMarquee, '_constructor', arguments);
 		},
 
 
@@ -105,7 +105,7 @@ OJ.extendClass(
 
 
 		'redraw' : function (){
-			if(this._super('NwCarousel', 'redraw', arguments)){
+			if(this._super(NwMarquee, 'redraw', arguments)){
 				this._visable_size = this.container.getWidth();
 
 				this._offset = this._visable_size / 2;

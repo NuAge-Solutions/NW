@@ -9,7 +9,7 @@ OJ.importJs('oj.events.OjEvent');
 'use strict';
 
 OJ.extendManager(
-	'AppManager', OjActionable, 'NwAppManager',
+	'AppManager', 'NwAppManager', [OjActionable],
 	{
 		'_props_' : {
 			'app' : null,
@@ -21,7 +21,7 @@ OJ.extendManager(
 
 
 		'_constructor' : function(){
-			this._super('NwAppManager', '_constructor', arguments);
+			this._super(OjActionable, '_constructor', arguments);
 
 			// listen for when the OJ is ready
 			if(OJ.isReady()){
