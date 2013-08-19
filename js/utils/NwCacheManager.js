@@ -10,7 +10,7 @@ OJ.extendManager(
 
 
 		'_constructor' : function(manager){
-			this._super(OjCacheManager, '_constructor', []);
+			this._super(OjCacheManager, '_constructor', arguments);
 
 			// determine which set of functions to use based on the systems capabilities
 			if(this._is_native = NW.isNative()){

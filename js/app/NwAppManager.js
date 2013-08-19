@@ -21,7 +21,7 @@ OJ.extendManager(
 
 
 		'_constructor' : function(){
-			this._super(OjActionable, '_constructor', arguments);
+			this._super(OjActionable, '_constructor', []);
 
 			// listen for when the OJ is ready
 			if(OJ.isReady()){

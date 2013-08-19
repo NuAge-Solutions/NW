@@ -47,6 +47,11 @@ OJ.extendComponent(
 					this.addEventListener(OjScrollEvent.SCROLL, this, '_onPaneScroll');
 //				}
 
+                // add a hack for the touch event bug with mobile safari
+                if(OJ.isMobile() && OJ.getBrowser() == OJ.SAFARI){
+                    this.addEventListener(OjMouseEvent.CLICK, this, '_onMobileSafariClick');
+                }
+
 				// setup the elm function overrides
 				this._dims = [];
 
@@ -100,14 +105,18 @@ OJ.extendComponent(
 			},
 
 			'_onPaneScrollEnd' : function(evt){
-				trace(evt);
+//				trace(evt);
 			},
+
+            '_onMobileSafariClick' : function(evt){
+                // this is a hack for a bug with safari and not registering touches on previously hidden elements
+            },
 
 
 			'addEventListener' : function(type, target, func){
 				this._super(OjView, 'addEventListener', arguments);
 
-				this._addItemListener(type);
+                this._addItemListener(type);
 			},
 
 			'removeEventListener' : function(type, target, func){
@@ -141,9 +150,7 @@ OJ.extendComponent(
 					}
 
 					// add all the new items
-					ln = visible.length;
-
-					for(; ln--;){
+					for(ln = visible.length; ln--;){
 						container.addChild(this.renderItemAt(visible[ln]));
 					}
 
@@ -184,8 +191,6 @@ OJ.extendComponent(
 
 			// Event Handler Functions
 			'_onItemAdd' : function(evt){
-				this._super(OjView, '_onItemAdd', arguments);
-
 				this._onItemChange(evt);
 			},
 

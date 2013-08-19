@@ -107,7 +107,7 @@ OJ.extendManager(
 
 
 		'_constructor' : function(){
-			this._super(OjActionable, '_constructor', arguments);
+			this._super(OjActionable, '_constructor', []);
 
 			// get the session data
 			this._session = CacheManager.getData('fbSession');
@@ -258,7 +258,7 @@ OJ.extendManager(
 			}
 			else{
 				var scope = ln ? args[0].join(',') : null;
-				trace('here');
+
 				if(FB){
 					FB.login(Facebook._onStatusChange, {'scope' : scope});
 				}

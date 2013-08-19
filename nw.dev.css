@@ -1,0 +1,280 @@
+.NwActionCard {
+
+}
+	.NwActionCard > .pane {
+		min-width: 100px;
+		max-width: 100%;
+
+		padding: 10px;
+
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	.is-mobile .NwActionCard > .pane {
+		min-width: 100%;
+
+		text-align: center;
+	}
+		.NwActionCard > .pane > .cancelBtn {
+			display: block;
+		}.NwActionButton {
+	display: block;
+}
+	.NwActionButton > .btn {
+		width: 100%;
+	}.NwApp {
+	display: block;
+
+	width: 100%;
+	height: 100%;
+
+	text-align: left;
+
+	overflow: hidden;
+}
+
+	.NwTabbedApp > .nav,
+	.NwFlowedApp > .nav {
+		position: absolute;
+
+		bottom: 0px;
+		left: 0px;
+
+		width: 100%;
+	}
+	.NwFlowedApp > .nav {
+		top: 0px;
+		bottom: auto;
+
+		height: 50px;
+	}
+
+	.NwTabbedApp > .stack,
+	.NwFlowedApp > .stack {
+		position: absolute;
+
+		top: 0px;
+		left: 0px;
+		bottom: 50px;
+
+		width: 100%;
+
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+	.NwFlowedApp > .stack {
+		top: 50px;
+		bottom: 0px;
+	}.NwMarquee > .prerender {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+	width: 0px;
+	height: 0px;
+
+	overflow: hidden;
+}
+
+.NwMarquee > .container {
+	width: 100%;
+	height: 100%;
+
+	z-index: 3;
+}
+
+.NwMarquee > .nextBtn,
+.NwMarquee > .prevBtn {
+	position: absolute;
+
+	top: 50%;
+	right: 10px;
+
+	margin-top: -14px;
+
+	z-index: 5;
+}
+.NwMarquee > .prevBtn {
+	left: 10px;
+	right: auto;
+}
+
+.NwMarquee.hide-buttons > .nextBtn, .NwMarquee.hover-buttons > .nextBtn,
+.NwMarquee.hide-buttons > .prevBtn, .NwMarquee.hover-buttons > .prevBtn {
+	display: none;
+}.NwCarousel {
+	min-width: 100px;
+	min-height: 30px;
+
+	overflow: hidden;
+}
+	.NwCarousel > .container {
+		position: absolute;
+
+		display: block;
+
+		top: 0px;
+		left: 50px;
+		bottom: 0px;
+		right: 50px;
+
+		overflow: hidden;
+	}
+		.NwCarousel > .container > * {
+			display: block;
+
+			position: absolute;
+
+			height: 100%;
+
+			background: #CCC;
+
+			margin: 0px;
+			padding: 0px;
+
+			text-align: center;
+		}
+
+
+	.NwCarousel .prevBtn,
+	.NwCarousel .nextBtn {
+		position: absolute;
+
+		display: block;
+
+		width: 10px;
+
+		left: 0px;
+	}
+	.NwCarousel .nextBtn {
+		left: auto;
+		right: 0px;
+	}.NwScrollPane {
+	display: block;
+	overflow: auto;
+}
+/*.is-mobile .NwScrollPane {*/
+	/*overflow: hidden;*/
+	/*-webkit-overflow-scrolling: auto;*/
+/*}*/
+	.NwScrollPane > .content {
+		min-width: 100%;
+		min-height: 100%
+	}
+	.NwScrollPane > .content > .container > *,
+	.NwScrollPane > .container > * {
+		display: block;
+
+		position: absolute;
+
+		top: 0px;
+		left: 0px;
+	}.fb-like-btn {
+	display: inline-block;
+}
+
+.fb-share-btn,
+.fb-share-btn:active,
+.fb-share-btn:focus,
+.fb-share-btn:hover {
+	width: 40px;
+	height: 20px;
+
+	background: url(http://passets.pinterest.com/images/pidgets/bps2.png) no-repeat 0px -20px;
+	background-size: 40px 60px;
+
+	overflow: hidden;
+}
+.fb-share-btn:hover {
+	background-position: 0px 0px;
+}
+.fb-share-btn:active {
+	background-position: 0px -40px;
+}.pinterest-share-btn,
+.pinterest-share-btn:active,
+.pinterest-share-btn:focus,
+.pinterest-share-btn:hover {
+	width: 40px;
+	height: 20px;
+
+	background: url(http://passets.pinterest.com/images/pidgets/bps2.png) no-repeat 0px -20px;
+	background-size: 40px 60px;
+
+	overflow: hidden;
+}
+.pinterest-share-btn:hover {
+	background-position: 0px 0px;
+}
+.pinterest-share-btn:active {
+	background-position: 0px -40px;
+}.twitter-share-btn,
+.twitter-share-btn:active,
+.twitter-share-btn:focus,
+.twitter-share-btn:hover {
+	height: 18px;
+	padding: 0px 5px;
+
+	background-color: #f8f8f8;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#dedede));
+	background-image: -moz-linear-gradient(top, #fff, #dedede);
+	background-image: -o-linear-gradient(top, #fff, #dedede);
+	background-image: -ms-linear-gradient(top, #fff, #dedede);
+	background-image: linear-gradient(top, #fff, #dedede);
+
+	border: #ccc solid 1px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+	color: #333;
+	font-size: 11px;
+	font-family: 'Helvetica Neue', Arial,sans-serif;
+	font-weight: bold;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	cursor: pointer;
+
+	overflow: hidden;
+}
+.twitter-share-btn:active,
+.twitter-share-btn:focus,
+.twitter-share-btn:hover {
+	border-color: #bbb;
+	background-color: #f8f8f8;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#d9d9d9));
+	background-image: -moz-linear-gradient(top, #f8f8f8, #d9d9d9);
+	background-image: -o-linear-gradient(top, #f8f8f8, #d9d9d9);
+	background-image: -ms-linear-gradient(top, #f8f8f8, #d9d9d9);
+	background-image: linear-gradient(top, #f8f8f8, #d9d9d9);
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.twitter-share-btn:active {
+	background-color: #efefef;
+	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+.twitter-share-btn > .icon {
+	width: 16px;
+	height: 11px;
+
+	background: url(https://platform.twitter.com/widgets/images/btn.27237bab4db188ca749164efd38861b0.png) no-repeat 0px 0px;
+}
+.twitter-share-btn:active > .icon,
+.twitter-share-btn:focus > .icon,
+.twitter-share-btn:hover > .icon {
+	background-position: 0px -20px;
+}
+
+.twitter-share-btn > .label {
+	padding-left: 3px;
+	line-height: 18px;
+}
