@@ -1902,6 +1902,17 @@ OJ.extendComponent(
 );
 
 
+OJ.extendComponent(
+  'NwTray', [OjComponent],
+  {
+    '_template' : '<div><div var=tray></div><div var=container></div></div>'
+  },
+  {
+    '_TAGS' : ['tray']
+  }
+);
+
+
 OJ.extendClass(
 	'NwDataEvent', [OjEvent],
 	{
