@@ -14,7 +14,8 @@ OJ.extendComponent(
   {
     '_props_' : {
       'actuator' : null,
-      'allowSlide' : false
+      'allowSlide' : false,
+      'tray' : null
     },
 
     '_template' : 'nw.components.NwTray',
@@ -141,6 +142,14 @@ OJ.extendComponent(
       }
 
       this._updateDragListeners((this._allowSlide = val) ? OjActionable.ADD : OjActionable.REMOVE);
+    },
+
+    'setTray' : function(val){
+      this.tray.removeAllChildren();
+
+      if(this._tray = val){
+        this.tray.addChild(val);
+      }
     },
 
     'getTrayPosition' : function(){

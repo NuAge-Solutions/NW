@@ -499,7 +499,7 @@ OJ.extendClass(
 		},
 
 		'property' : function(prop/*, val*/){
-			var args = arguments,
+      var args = arguments,
 				prev = this._data[prop];
 
 			if(args.length > 1){

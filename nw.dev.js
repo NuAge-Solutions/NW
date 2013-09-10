@@ -562,146 +562,155 @@ OJ.extendManager(
 );
 
 
+OJ.defineClass(
+  'NwIApp',
+  {
+    '_get_props_' : {
+      'maxWidth'  : null,
+      'maxHeight' : null,
+      'minWidth'  : 320,
+      'minHeight' : 320,
+      'session'   : null,
+      'systemBar' : 'appSystemBarDefault', // NwApp.SYSTEM_BAR_DEFAULT
+      'url'       : null
+    },
+    '_api_endpoint' : '/',  '_api_request_type' : OjUrlRequest.QUERY_STRING,  '_api_response_type' : null,
+    '_has_mobile_layout' : false,  '_has_tablet_layout' : false,  '_is_logged_in' : false,
+    '_orientations' : null,  '_ready' : false,  '_scale' : 1,  '_timer' : null,
+    // the acl object will serve as a first-level permission control system to prevent users from doing things they shouldn't
+    // ultimately the final level of permission control should be done on the server side
+    '_acl' : null,
+
+    '_init' : function(){
+      // setup the url
+      var url = HistoryManager.get();
+      this._url = url.getProtocol() + '://' + url.getHost();
+      // mobile settings
+      if(
+        (OJ.isMobile() && this._has_mobile_layout) ||
+        (OJ.isTablet() && this._has_tablet_layout)
+      ){
+        this.setSystemBar(NwApp.SYSTEM_BAR_DEFAULT);
+        this._scale = OJ.getPixelRatio();
+        OJ.meta('viewport', 'width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no');
+        OJ.meta('apple-mobile-web-app-capable', 'yes');
+      }
+      // orientation settings
+      if(this._orientations){
+        NW.setSupportedOrientations(this._orientations);
+      }
+      // size settings
+      if(this._minWidth && this._minHeight){
+        NW.setMinSize(this._minWidth, this._minHeight);
+      }
+      if(this._maxWidth && this._maxHeight){
+        NW.setMaxSize(this._maxWidth, this._maxHeight);
+      }
+      // setup the acl
+      this._acl = {};
+    },
+
+    // helper functions
+    '_buildApiUrl' : function(method){
+      return this._api_endpoint + String.string(method);
+    },
+    '_login' : function(){
+      this._is_logged_in = true;
+      this.dispatchEvent(new OjEvent(NwApp.LOGIN));
+      AppManager.dispatchEvent(new OjEvent(NwApp.LOGIN));
+    },
+    '_loginFail' : function(){
+      this._is_logged_in = false;
+      this.dispatchEvent(new OjEvent(NwApp.LOGIN_FAIL));
+      AppManager.dispatchEvent(new OjEvent(NwApp.LOGIN_FAIL));
+    },
+    '_logout' : function(){
+      this._is_logged_in = false;
+      this.dispatchEvent(new OjEvent(NwApp.LOGOUT));
+      AppManager.dispatchEvent(new OjEvent(NwApp.LOGOUT));
+    },
+    '_logoutFail' : function(){
+      this.dispatchEvent(new OjEvent(NwApp.LOGOUT_FAIL));
+      AppManager.dispatchEvent(new OjEvent(NwApp.LOGOUT_FAIL));
+    },
+    '_makeSession' : function(){
+      return new NwSession();
+    },
+
+    // event handler functions
+    '_onSaveSession' : function(evt){
+      CacheManager.setData(this.className(), this._session);
+    },
+    '_onSessionChange' : function(evt){
+      this._timer.restart();
+    },
+
+    // utility functions
+    'apiRequest' : function(method, params/*, method = GET, async = true*/){
+      var ln = arguments.length;
+      var loader = new NwUrlLoader(
+        new NwUrlRequest(this._buildApiUrl(method), params, this._api_request_type, ln > 2 ? arguments[2] : OjUrlRequest.GET),
+        ln > 3 ? arguments[3] : true
+      );
+      loader.setContentType(this._api_response_type);
+      return loader;
+    },
+    'hideLoading' : function(){
+      return this._hideOverlay();
+    },
+    // this gets called by the app manager to let the app know all is ready to go
+    'init' : function(){
+      if(!(this._session = CacheManager.getData(this.className()))){
+        this._session = this._makeSession();
+      }
+      // add change listener on the session so we know when to save it
+      this._timer = new OjTimer(500, 1);
+      this._timer.addEventListener(OjTimer.COMPLETE, this, '_onSaveSession');
+      this._session.addEventListener(OjEvent.CHANGE, this, '_onSessionChange');
+      // ready the app visually
+      this.redraw();
+      // return the session
+      return this._session;
+    },
+    'isLoggedIn' : function(){
+      return this._is_logged_in;
+    },
+    'login' : function(){ },
+    'logout' : function(){ },
+    'showLoading' : function(/*message, icon*/){
+      return this._showOverlay.apply(this, arguments);
+    },
+
+    // Getter & Setter Functions
+    'setSystemBar' : function(value){
+      this._systemBar = value;
+      if(NwApp.OS == NwApp.IOS){
+        var system_bar;
+        switch(this._systemBar){
+          case NwApp.SYSTEM_BAR_BLACK:
+            system_bar = 'black';
+            break;
+          case NwApp.SYSTEM_BAR_BLACK_NONE:
+          case NwApp.SYSTEM_BAR_BLACK_TRANS:
+            system_bar = 'black-translucent';
+            break;
+          default:
+            system_bar = 'default';
+            break;
+        }
+        OJ.meta('apple-mobile-web-app-status-bar-style', system_bar);
+      }
+    }
+  }
+);
+
 OJ.extendClass(
-	'NwApp', [OjView],
-	{
-		'_get_props_' : {
-			'maxWidth'  : null,
-			'maxHeight' : null,
-			'minWidth'  : 320,
-			'minHeight' : 320,
-			'session'   : null,
-			'systemBar' : 'appSystemBarDefault', // NwApp.SYSTEM_BAR_DEFAULT
-			'url'       : null
-		},
-		'_api_endpoint' : '/',  '_api_request_type' : OjUrlRequest.QUERY_STRING,  '_api_response_type' : null,
-		'_has_mobile_layout' : false,  '_has_tablet_layout' : false,  '_is_logged_in' : false,
-		'_orientations' : null,  '_ready' : false,  '_scale' : 1,  '_timer' : null,
-		// the acl object will serve as a first-level permission control system to prevent users from doing things they shouldn't
-		// ultimately the final level of permission control should be done on the server side
-		'_acl' : null,
-
-		'_constructor' : function(/*properties*/){
-			this._super(OjView, '_constructor', arguments);
-			// setup the url
-			var url = HistoryManager.get();
-			this._url = url.getProtocol() + '://' + url.getHost();
-			// mobile settings
-			if(
-				(OJ.isMobile() && this._has_mobile_layout) ||
-				(OJ.isTablet() && this._has_tablet_layout)
-			){
-				this.setSystemBar(NwApp.SYSTEM_BAR_DEFAULT);
-				this._scale = OJ.getPixelRatio();
-				OJ.meta('viewport', 'width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no');
-				OJ.meta('apple-mobile-web-app-capable', 'yes');
-			}
-			// orientation settings
-			if(this._orientations){
-				NW.setSupportedOrientations(this._orientations);
-			}
-			// size settings
-			if(this._minWidth && this._minHeight){
-				NW.setMinSize(this._minWidth, this._minHeight);
-			}
-			if(this._maxWidth && this._maxHeight){
-				NW.setMaxSize(this._maxWidth, this._maxHeight);
-			}
-			// setup the acl
-			this._acl = {};
-		},
-
-		// helper functions
-		'_buildApiUrl' : function(method){
-			return this._api_endpoint + String.string(method);
-		},
-		'_login' : function(){
-			this._is_logged_in = true;
-			this.dispatchEvent(new OjEvent(NwApp.LOGIN));
-			AppManager.dispatchEvent(new OjEvent(NwApp.LOGIN));
-		},
-		'_loginFail' : function(){
-			this._is_logged_in = false;
-			this.dispatchEvent(new OjEvent(NwApp.LOGIN_FAIL));
-			AppManager.dispatchEvent(new OjEvent(NwApp.LOGIN_FAIL));
-		},
-		'_logout' : function(){
-			this._is_logged_in = false;
-			this.dispatchEvent(new OjEvent(NwApp.LOGOUT));
-			AppManager.dispatchEvent(new OjEvent(NwApp.LOGOUT));
-		},
-		'_logoutFail' : function(){
-			this.dispatchEvent(new OjEvent(NwApp.LOGOUT_FAIL));
-			AppManager.dispatchEvent(new OjEvent(NwApp.LOGOUT_FAIL));
-		},
-		'_makeSession' : function(){
-			return new NwSession();
-		},
-
-		// event handler functions
-		'_onSaveSession' : function(evt){
-			CacheManager.setData(this.className(), this._session);
-		},
-		'_onSessionChange' : function(evt){
-			this._timer.restart();
-		},
-
-		// utility functions
-		'apiRequest' : function(method, params/*, method = GET, async = true*/){
-			var ln = arguments.length;
-			var loader = new NwUrlLoader(
-				new NwUrlRequest(this._buildApiUrl(method), params, this._api_request_type, ln > 2 ? arguments[2] : OjUrlRequest.GET),
-				ln > 3 ? arguments[3] : true
-			);
-			loader.setContentType(this._api_response_type);
-			return loader;
-		},
-		'hideLoading' : function(){
-			return this._hideOverlay();
-		},
-		// this gets called by the app manager to let the app know all is ready to go
-		'init' : function(){
-			if(!(this._session = CacheManager.getData(this.className()))){
-				this._session = this._makeSession();
-			}
-			// add change listener on the session so we know when to save it
-			this._timer = new OjTimer(500, 1);
-			this._timer.addEventListener(OjTimer.COMPLETE, this, '_onSaveSession');
-			this._session.addEventListener(OjEvent.CHANGE, this, '_onSessionChange');
-			// ready the app visually
-			this.redraw();
-			// return the session
-			return this._session;
-		},
-		'isLoggedIn' : function(){
-			return this._is_logged_in;
-		},
-		'login' : function(){ },
-		'logout' : function(){ },
-		'showLoading' : function(/*message, icon*/){
-			return this._showOverlay.apply(this, arguments);
-		},
-
-		// Getter & Setter Functions
-		'setSystemBar' : function(value){
-			this._systemBar = value;
-			if(NwApp.OS == NwApp.IOS){
-				var system_bar;
-				switch(this._systemBar){
-					case NwApp.SYSTEM_BAR_BLACK:
-						system_bar = 'black';
-						break;
-					case NwApp.SYSTEM_BAR_BLACK_NONE:
-					case NwApp.SYSTEM_BAR_BLACK_TRANS:
-						system_bar = 'black-translucent';
-						break;
-					default:
-						system_bar = 'default';
-						break;
-				}
-				OJ.meta('apple-mobile-web-app-status-bar-style', system_bar);
-			}
-		}
+	'NwApp', [OjView, NwIApp],
+  {
+    '_constructor' : function(/*properties*/){
+      this._super(OjView, '_constructor', arguments);
+      this._init();
+    }
 	},
 	{
 		// Event Constants
@@ -1185,6 +1194,139 @@ OJ.extendClass(
 //		}
 	}
 )
+
+
+OJ.extendComponent(
+  'NwTray', [OjComponent],
+  {
+    '_props_' : {
+      'actuator' : null,
+      'allowSlide' : false,
+      'tray' : null
+    },
+    '_template' : '<div><div var=tray></div><div var=container></div></div>',
+    // '_tray_anim' : null,
+
+    '_constructor' : function(/*actuator, allowSlide = false unless native and mobile*/){
+      this._super(OjComponent, '_constructor', []);
+      this._processArguments(arguments, {
+        'setActuator' : undefined,
+        'setAllowSlide' : OJ.isMobile() && NW.isNative()
+      });
+    },
+
+    '_startTrayAnim' : function(tray_amount, content_amount){
+			var easing = OjEasing.STRONG_OUT,
+				  dir = OjMove.X;
+			this._stopTrayAnim();
+			this._tray_anim = new OjTweenSet(
+				new OjMove(this.tray, dir, tray_amount, 250, easing),
+				new OjMove(this.container, dir, content_amount, 250, easing)
+			);
+			this._tray_anim.start();
+		},
+		'_stopTrayAnim' : function(){
+			this._unset('_tray_anim');
+		},
+    '_updateActuatorListeners' : function(action){
+      if(this._actuator){
+        this._actuator[action + 'EventListener'](OjMouseEvent.CLICK, this, '_onActuatorClick');
+      }
+    },
+    '_updateContainerListeners' : function(action){
+      this.container[action + 'EventListener'](OjMouseEvent.DOWN, this, '_onTrayBlur');
+    },
+    '_updateDragListeners' : function(action){
+      if(this._actuator){
+        this._actuator[action + 'EventListener'](OjDragEvent.START, this, '_onActuatorDragStart');
+        this._actuator[action + 'EventListener'](OjDragEvent.MOVE, this, '_onActuatorDragMove');
+      }
+    },
+
+    '_onActuatorClick' : function(evt){
+      this.toggleTray();
+    },
+    '_onActuatorDragMove' : function(evt){
+    },
+    '_onActuatorDragStart' : function(evt){
+    },
+		'_onTrayBlur' : function(evt){
+			this.hideTray();
+		},
+
+    'hideTray' : function(){
+        var amount = this.getWidth() * -.6;
+        if(this.tray.getX() == amount){
+          return;
+        }
+        this._startTrayAnim(amount, 0);
+        this._updateContainerListeners(OjActionable.REMOVE);
+    },
+    'showTray' : function(){
+//        if(!this.tray.getX()){
+//            return;
+//        }
+        this._startTrayAnim(0, this.getWidth() * .6);
+    },
+
+    'toggleTray' : function(/*val*/){
+        var w = this.getWidth(),
+            val = arguments.length? arguments[0] : this.container.getX();
+        if(val < w * .3){
+            this.showTray();
+        }
+        else{
+            this.hideTray();
+        }
+    },
+    'setActuator' : function(val){
+      if(this._actuator ==  val){
+        return;
+      }
+      this._updateActuatorListeners(OjActionable.REMOVE);
+      this._updateDragListeners(OjActionable.REMOVE);
+      this._actuator = val;
+      this._updateActuatorListeners(OjActionable.ADD);
+      if(this._allowSlide){
+        this._updateDragListeners(OjActionable.ADD);
+      }
+    },
+    'setAllowSlide' : function(val){
+      if(this._allowSlide == val){
+        return;
+      }
+      this._updateDragListeners((this._allowSlide = val) ? OjActionable.ADD : OjActionable.REMOVE);
+    },
+    'setTray' : function(val){
+      this.tray.removeAllChildren();
+      if(this._tray = val){
+        this.tray.addChild(val);
+      }
+    },
+    'getTrayPosition' : function(){
+      return this.container.getX();
+    },
+    'setTrayPosition' : function(val){
+      var w = this.getWidth() * .6;
+      this.tray.setX(Math.max(Math.min(val - w, 0), -(w)));
+      this.container.setX(Math.min(Math.max(val, 0), w));
+//      this._updateContainerListeners(OjActionable.ADD);
+    }
+  },
+  {
+    '_TAGS' : ['tray']
+  }
+);
+
+OJ.extendComponent(
+  'NwTrayApp', [NwTray, NwIApp],
+  {
+    '_constructor' : function(){
+      this._super(NwTray, '_constructor', arguments);
+      this._init();
+    }
+	}
+);
 
 
 OJ.extendClass(
@@ -1902,122 +2044,6 @@ OJ.extendComponent(
 );
 
 
-OJ.extendComponent(
-  'NwTray', [OjComponent],
-  {
-    '_props_' : {
-      'actuator' : null,
-      'allowSlide' : false
-    },
-    '_template' : '<div><div var=tray></div><div var=container></div></div>',
-    // '_tray_anim' : null,
-
-    '_constructor' : function(/*actuator, allowSlide = false unless native and mobile*/){
-      this._super(OjComponent, '_constructor', []);
-      this._processArguments(arguments, {
-        'setActuator' : undefined,
-        'setAllowSlide' : OJ.isMobile() && NW.isNative()
-      });
-    },
-
-    '_startTrayAnim' : function(tray_amount, content_amount){
-			var easing = OjEasing.STRONG_OUT,
-				  dir = OjMove.X;
-			this._stopTrayAnim();
-			this._tray_anim = new OjTweenSet(
-				new OjMove(this.tray, dir, tray_amount, 250, easing),
-				new OjMove(this.container, dir, content_amount, 250, easing)
-			);
-			this._tray_anim.start();
-		},
-		'_stopTrayAnim' : function(){
-			this._unset('_tray_anim');
-		},
-    '_updateActuatorListeners' : function(action){
-      if(this._actuator){
-        this._actuator[action + 'EventListener'](OjMouseEvent.CLICK, this, '_onActuatorClick');
-      }
-    },
-    '_updateContainerListeners' : function(action){
-      this.container[action + 'EventListener'](OjMouseEvent.DOWN, this, '_onTrayBlur');
-    },
-    '_updateDragListeners' : function(action){
-      if(this._actuator){
-        this._actuator[action + 'EventListener'](OjDragEvent.START, this, '_onActuatorDragStart');
-        this._actuator[action + 'EventListener'](OjDragEvent.MOVE, this, '_onActuatorDragMove');
-      }
-    },
-
-    '_onActuatorClick' : function(evt){
-      this.toggleTray();
-    },
-    '_onActuatorDragMove' : function(evt){
-    },
-    '_onActuatorDragStart' : function(evt){
-    },
-		'_onTrayBlur' : function(evt){
-			this.hideTray();
-		},
-
-    'hideTray' : function(){
-        var amount = this.getWidth() * -.6;
-        if(this.tray.getX() == amount){
-          return;
-        }
-        this._startTrayAnim(amount, 0);
-        this._updateContainerListeners(OjActionable.REMOVE);
-    },
-    'showTray' : function(){
-//        if(!this.tray.getX()){
-//            return;
-//        }
-        this._startTrayAnim(0, this.getWidth() * .6);
-    },
-
-    'toggleTray' : function(/*val*/){
-        var w = this.getWidth(),
-            val = arguments.length? arguments[0] : this.container.getX();
-        if(val < w * .3){
-            this.showTray();
-        }
-        else{
-            this.hideTray();
-        }
-    },
-    'setActuator' : function(val){
-      if(this._actuator ==  val){
-        return;
-      }
-      this._updateActuatorListeners(OjActionable.REMOVE);
-      this._updateDragListeners(OjActionable.REMOVE);
-      this._actuator = val;
-      this._updateActuatorListeners(OjActionable.ADD);
-      if(this._allowSlide){
-        this._updateDragListeners(OjActionable.ADD);
-      }
-    },
-    'setAllowSlide' : function(val){
-      if(this._allowSlide == val){
-        return;
-      }
-      this._updateDragListeners((this._allowSlide = val) ? OjActionable.ADD : OjActionable.REMOVE);
-    },
-    'getTrayPosition' : function(){
-      return this.container.getX();
-    },
-    'setTrayPosition' : function(val){
-      var w = this.getWidth() * .6;
-      this.tray.setX(Math.max(Math.min(val - w, 0), -(w)));
-      this.container.setX(Math.min(Math.max(val, 0), w));
-//      this._updateContainerListeners(OjActionable.ADD);
-    }
-  },
-  {
-    '_TAGS' : ['tray']
-  }
-);
-
-
 OJ.extendClass(
 	'NwDataEvent', [OjEvent],
 	{
@@ -2593,7 +2619,7 @@ OJ.extendClass(
 			this._loader.load();
 		},
 		'property' : function(prop/*, val*/){
-			var args = arguments,
+      var args = arguments,
 				prev = this._data[prop];
 			if(args.length > 1){
 				var val = args[1];

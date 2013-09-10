@@ -1,14 +1,22 @@
 {
   "" : {
+    "templates" : {
+      "nw.components.NwMarquee" : "<div><div var=prerender></div><stack var=container></stack></div>",
+      "nw.app.NwApp" : "<div><div var=nav class=OjFlowNavController class-path=\"oj.nav.FlowNavController\"></div><div var=stack class=OjStack class-path=\"oj.components.Stack\"></div></div>",
+      "nw.components.NwScrollPane" : "<div><div var=content><div var=container></div></div></div>",
+      "nw.window.NwActionButton" : "<div><button var=btn></button></div>",
+      "nw.components.NwTray" : "<div><div var=tray></div><div var=container></div></div>",
+      "nw.window.NwActionCard" : "<div><div var=underlay></div><div var=pane><button var=cancelBtn on-click=_onCancelClick>Cancel</button></div></div>"
+    },
     "css" : [
       "css/NW.css",
       "css/window/NwActionCard.css",
       "css/window/NwActionButton.css",
       "css/app/NwApp.css",
+      "css/components/NwTray.css",
       "css/components/NwMarquee.css",
       "css/components/NwCarousel.css",
       "css/components/NwScrollPane.css",
-      "css/components/NwTray.css",
       "css/social/NwFacebook.css",
       "css/social/NwPinterest.css",
       "css/social/NwTwitter.css"
@@ -34,12 +42,13 @@
       "js/analytics/NwAnalyticsView.js",
       "js/analytics/NwAnalyticsEngine.js",
       "js/analytics/NwGoogleAnalytics.js",
+      "js/app/NwTrayApp.js",
+      "js/components/NwTray.js",
       "js/components/NwCarousel.js",
       "js/components/NwMarquee.js",
       "js/components/NwScrollPane.js",
       "js/layouts/NwColumnLayout.js",
       "js/layouts/NwLayout.js",
-      "js/components/NwTray.js",
       "js/data/NwData.js",
       "js/data/NwDataEvent.js",
       "js/data/NwDataErrorEvent.js",
