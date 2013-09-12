@@ -3,9 +3,9 @@
 window.NW = (function Nw(){
 	return new OjActionable(
 		{
-			'_alerts' : {},  '_analytics' : null,  '_callbacks' : {},  '_gateway' : null,  '_is_native' : false,
-			'_scroll_top' : 0,  '_scroll_left' : 0, '_keyboard_visible' : false,
-			'_old_trace' : null,
+			'_alerts' : {},  '_is_native' : false,  '_use_http' : false,
+      '_scroll_top' : 0,  '_scroll_left' : 0, '_keyboard_visible' : false,
+//			'_analytics' : null,  '_callbacks' : {},  '_gateway' : null,  '_old_trace' : null,
 
 			'CONFIRM' : 'nwConfirm',
 			'STATUS_BAR_CHANGE' : 'onStatusBarChange',
@@ -39,6 +39,9 @@ window.NW = (function Nw(){
 				}
 				return null;
 			},
+      '_isReady' : function(){
+        return this.comm('ready');
+      },
 			'_triggerEvent' : function(evt, data){
 //				trace(evt, data);
 				this.dispatchEvent(new NwEvent(evt, false, false, data));
@@ -86,57 +89,35 @@ window.NW = (function Nw(){
 				}
 			},
 
-			// config functions
-			'getGateway' : function(){
-				return this._gateway;
-			},
-			'getMaxSize' : function(){
-				if(!this._is_native){
-					return null;
-				}
-				return this.comm('maxSize', [], false).load();
-			},
-			'setMaxSize' : function(width, height){
-				if(this._is_native){
-					this.comm('maxSize', [width, height]).load();
-				}
-			},
-			'getMinSize' : function(){
-				if(!this._is_native){
-					return null;
-				}
-				return this.comm('minSize', [], false).load();
-			},
-			'setMinSize' : function(width, height){
-				if(this._is_native){
-					this.comm('minSize', [width, height]).load();
-				}
-			},
-			'getSupportedOrientations' : function(){
-				if(!this._is_native){
-					return null;
-				}
-				return this.comm('supportedOrientations', [], false).load();
-			},
-			'setSupportedOrientations' : function(orientations){
-				if(this._is_native){
-					this.comm('supportedOrientations', [orientations]).load();
-				}
-			},
-
 			// utility functions
-			'comm' : function(method, params/*, async=true*/){
-				return new NwRpc(
-					'http://native.web/comm', method, params, OjRpc.JSON,
-					arguments.length > 2 ? arguments[2] : true
-				);
+			'comm' : function(method/*, params=[], async=false*/){
+        var parts,
+            ln = arguments.length,
+            async = ln > 2 ? arguments[2] : false,
+            params = ln > 1 ? arguments[1] : [],
+            comm = 'nw',
+            context = window,
+            i = 0;
+
+        if(this._use_http){
+          return (new NwRpc('http://native.web/comm', method, params, OjRpc.JSON, async)).load();
+        }
+        parts = method.split('.');
+        for(ln = parts.length; i < ln; i++){
+          context = context[comm];
+          comm = context[parts[i]];
+        }
+        if(!async){
+          return comm.apply(context, params);
+        }
+        setTimeout(function(){ comm.apply(context, params); }, 1);
 			},
 			'isNative' : function(/*gateway*/){
 				if(arguments.length){
 					if(this._is_native = !isEmpty(this._gateway = arguments[0])){
 						OJ.addCss(['is-native']);
 						if(OJ.isReady()){
-							this.comm('ready', []).load();
+							this._isReady();
 						}
 						// override the default trace functionality
 //						if(!this._old_trace){
@@ -159,19 +140,25 @@ window.NW = (function Nw(){
 				}
 				return this._is_native;
 			},
-
 			'trace' : function(obj){
 				if(this._is_native){
-					return this.comm('trace', [obj]).load();
+          return this.comm('trace', [obj]);
 				}
 			},
 			'trackTimed' : function(event, params){
 				// todo: add tracking of timed event
 			},
+      'useHttp' : function(){
+        return this._use_http;
+      },
 
 			// these are at the end for compilation reasons
 			'_onOjLoad' : function(evt){
 				OJ.removeEventListener(OjEvent.LOAD, this, '_onOjLoad');
+        // detect if iOS
+        if(OJ.getOs() == OJ.IOS){
+          this._use_http = true;
+        }
 				// detect if native
 				var url = HistoryManager.get();
 				if(url.getHost() == 'native.web'){
@@ -181,10 +168,48 @@ window.NW = (function Nw(){
 			'_onOjReady' : function(evt){
 				OJ.removeEventListener(OjEvent.READY, this, '_onOjReady');
 				if(this._is_native){
-					this.comm('ready', []).load();
+					this._isReady();
 				}
 				else{
 					OJ.addEventListener(OjOrientationEvent.CHANGE, this, '_onOrientationChange');
+				}
+			},
+
+      // config functions
+			'getGateway' : function(){
+				return this._gateway;
+			},
+			'getMaxSize' : function(){
+				if(!this._is_native){
+					return null;
+				}
+				return this.comm('maxSize');
+			},
+			'setMaxSize' : function(width, height){
+				if(this._is_native){
+					return this.comm('maxSize', [width, height]);
+				}
+			},
+			'getMinSize' : function(){
+				if(!this._is_native){
+					return null;
+				}
+        return this.comm('minSize');
+			},
+			'setMinSize' : function(width, height){
+				if(this._is_native){
+					this.comm('minSize', [width, height]);
+				}
+			},
+			'getSupportedOrientations' : function(){
+				if(!this._is_native){
+					return null;
+				}
+				return this.comm('supportedOrientations');
+			},
+			'setSupportedOrientations' : function(orientations){
+				if(this._is_native){
+					this.comm('supportedOrientations', [orientations]);
 				}
 			}
 		}
