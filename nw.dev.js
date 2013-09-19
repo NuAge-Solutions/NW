@@ -40,7 +40,7 @@ OJ.definePackage(
       return null;
     },
     '_isReady' : function(){
-      return this.comm('ready');
+      return this.comm('nw.ready');
     },
     '_triggerEvent' : function(evt, data){
   //				trace(evt, data);
@@ -142,7 +142,7 @@ OJ.definePackage(
     },
     'trace' : function(obj){
       if(this._is_native){
-        return this.comm('trace', [obj]);
+        return this.comm('nw.trace', [obj]);
       }
     },
     'trackTimed' : function(event, params){
@@ -183,33 +183,34 @@ OJ.definePackage(
       if(!this._is_native){
         return null;
       }
-      return this.comm('maxSize');
+      return this.comm('nw.maxSize');
     },
     'setMaxSize' : function(width, height){
       if(this._is_native){
-        return this.comm('maxSize', [width, height]);
+        return this.comm('nw.maxSize', [width, height]);
       }
     },
     'getMinSize' : function(){
       if(!this._is_native){
         return null;
       }
-      return this.comm('minSize');
+      return this.comm('nw.minSize');
     },
     'setMinSize' : function(width, height){
       if(this._is_native){
-        this.comm('minSize', [width, height]);
+        this.comm('nw.minSize', [width, height]);
       }
     },
     'getSupportedOrientations' : function(){
       if(!this._is_native){
         return null;
       }
-      return this.comm('supportedOrientations');
+      return this.comm('nw.supportedOrientations');
     },
     'setSupportedOrientations' : function(orientations){
       if(this._is_native){
-        this.comm('supportedOrientations', [orientations]);
+        this.comm('nw.supportedOrientations', [orientations]);
+        this.comm('nw.supportedOrientations', [orientations]);
       }
     }
   }
