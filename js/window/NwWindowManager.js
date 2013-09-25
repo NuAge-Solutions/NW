@@ -60,7 +60,7 @@ OJ.extendManager(
 
 			// if app is not running natively then just call the regular alert
 			if(NW.isNative()){
-				var comm = this.comm('alert', [alrt.getContent(), alrt.getTitle(), alrt.getButtons(), alrt.getCancelLabel()]);
+				var comm = this.comm('nwUi.alert', [alrt.getContent(), alrt.getTitle(), alrt.getButtons(), alrt.getCancelLabel()]);
 
 //				this._alerts[comm.getId()] = alrt;
 
@@ -85,7 +85,7 @@ OJ.extendManager(
 
 		'browser' : function(url, title/*, width, height*/){
 			if(NW.isNative()){
-				return this.comm('browser', Array.array(arguments)).load();
+				return this.comm('nwUi.browser', Array.array(arguments)).load();
 			}
 
 			return this._super(OjWindowManager, 'browser', arguments);
@@ -93,7 +93,7 @@ OJ.extendManager(
 
 		'call' : function(phone){
 			if(NW.isNative()){
-				return this.comm('call', Array.array(arguments)).load();
+				return this.comm('nwUi.call', Array.array(arguments)).load();
 			}
 
 			return this._super(OjWindowManager, 'call', arguments);
@@ -101,7 +101,7 @@ OJ.extendManager(
 
 		'email' : function(email){
 			if(NW.isNative()){
-				return this.comm('email', [email]).load();
+				return this.comm('nwUi.email', [email]).load();
 			}
 
 			return this._super(OjWindowManager, 'email', arguments);
@@ -129,7 +129,7 @@ OJ.extendManager(
 
 		'txt' : function(phone, message){
 			if(NW.isNative()){
-				return this.comm('txt', Array.array(arguments)).load();
+				return this.comm('nwUi.txt', Array.array(arguments)).load();
 			}
 
 			return this._super(OjWindowManager, 'txt', arguments);
