@@ -10,6 +10,7 @@ OJ.extendClass(
 		'_props_' : {
 			'default'         : null,
 			'defaultValue'    : null,
+      'flatten'         : false,
 			'label'           : null,
 			'max'             : 1,
 			'min'             : 0,

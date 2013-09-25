@@ -62,7 +62,7 @@ OJ.extendClass(
 		},
 
 		'_importSubValue' : function(value, old_value, mode){
-			// if the value is null then just return that
+      // if the value is null then just return that
 			if(!value){
 				return null;
 			}
@@ -86,7 +86,7 @@ OJ.extendClass(
 
 			var cls = this.getClass();
 
-			return isObject(value) ? cls.importData(value, mode) : cls.get(value);
+      return isObject(value) ? cls.importData(value, mode) : cls.get(value);
 		},
 
 		'_importValue' : function(value, old_value, mode){
@@ -164,10 +164,10 @@ OJ.extendClass(
 
 			// setup the getter and setter funcs
 			var getter = 'get' + u_key,
-				setter = 'set' + u_key,
-				ns = this._namespace.ucFirst(),
-				on_change,
-				is_sub = (this._allowNesting || this._flatten);
+          setter = 'set' + u_key,
+          ns = this._namespace.ucFirst(),
+          on_change,
+          is_sub = (this._allowNesting || this._flatten);
 
 
 			// setup change listener function if one doesn't already exist

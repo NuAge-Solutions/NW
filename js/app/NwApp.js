@@ -14,8 +14,6 @@ OJ.importJs('oj.net.OjRpc');
 OJ.importCss('nw.app.NwApp');
 
 
-'use strict';
-
 OJ.defineClass(
   'NwIApp',
   {
@@ -50,8 +48,6 @@ OJ.defineClass(
         (OJ.isMobile() && this._has_mobile_layout) ||
         (OJ.isTablet() && this._has_tablet_layout)
       ){
-        this.setSystemBar(NwApp.SYSTEM_BAR_DEFAULT);
-
         this._scale = OJ.getPixelRatio();
 
         OJ.meta('viewport', 'width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no');
@@ -74,6 +70,9 @@ OJ.defineClass(
 
       // setup the acl
       this._acl = {};
+
+      // init with the app manager
+      AppManager.init(this);
     },
 
 
@@ -186,16 +185,16 @@ OJ.defineClass(
         switch(this._systemBar){
           case NwApp.SYSTEM_BAR_BLACK:
             system_bar = 'black';
-            break;
+          break;
 
           case NwApp.SYSTEM_BAR_BLACK_NONE:
           case NwApp.SYSTEM_BAR_BLACK_TRANS:
             system_bar = 'black-translucent';
-            break;
+          break;
 
           default:
             system_bar = 'default';
-            break;
+          break;
         }
 
         OJ.meta('apple-mobile-web-app-status-bar-style', system_bar);

@@ -24,7 +24,7 @@ OJ.extendManager(
 		},
 
 
-		'getNativeData' : function(key){
+		'getNativeData' : function(key/*, default*/){
 
 		},
 

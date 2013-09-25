@@ -116,14 +116,6 @@ OJ.extendManager(
 				this._session = {};
 			}
 
-			// add listener for when oj is ready
-			if(OJ.isReady()){
-				this._onOjReady(null);
-			}
-			else{
-				OJ.addEventListener(OjEvent.READY, this, '_onOjReady');
-			}
-
 			// setup the facebook sdk includes
 			if(NW.isNative()){
 				NW.addEventListener(this.LOGIN, this, '_onLogin');
@@ -150,6 +142,12 @@ OJ.extendManager(
 
 		'_init' : function(){
 			var url = HistoryManager.get();
+
+      // add the required root div
+			OJ.addChildAt(new OjStyleElement('<div id="fb-root"></div>'), 0);
+
+			// load the sdk
+			OJ.loadJs('//connect.facebook.net/en_US/all.js', true, false);
 
 			FB.Event.subscribe(
 				'auth.statusChange',
@@ -215,16 +213,6 @@ OJ.extendManager(
 
 		'_onLogout' : function(evt){
 			this._logout(evt.getData());
-		},
-
-		'_onOjReady' : function(evt){
-			this.removeEventListener(OjEvent.READY, this, '_onOjReady');
-
-			// add the required root div
-			OJ.addChildAt(new OjStyleElement('<div id="fb-root"></div>'), 0);
-
-			// load the sdk
-			OJ.loadJs('//connect.facebook.net/en_US/all.js', true, false);
 		},
 
 		'_onStatusChange' : function(response){
