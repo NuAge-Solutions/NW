@@ -201,16 +201,26 @@ OJ.definePackage(
         this.comm('nw.minSize', [width, height]);
       }
     },
+    'getStatusBarStyle' : function(){
+      if(!this._is_native){
+        return null;
+      }
+      return this.comm('nw.statusBarStyle');
+    },
+    'setStatusBarStyle' : function(val){
+      if(this._is_native){
+        this.comm('nw.statusBarStyle', [val]);
+      }
+    },
     'getSupportedOrientations' : function(){
       if(!this._is_native){
         return null;
       }
       return this.comm('nw.supportedOrientations');
     },
-    'setSupportedOrientations' : function(orientations){
+    'setSupportedOrientations' : function(val){
       if(this._is_native){
-        this.comm('nw.supportedOrientations', [orientations]);
-        this.comm('nw.supportedOrientations', [orientations]);
+        this.comm('nw.supportedOrientations', [val]);
       }
     }
   }
