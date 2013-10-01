@@ -1,9 +1,9 @@
-OJ.importJs('nw.app.NwSession');
+OJ.importJs('nw.apps.NwSession');
 OJ.importJs('nw.window.NwWindowManager');
 OJ.importJs('nw.net.NwUrlLoader');
 OJ.importJs('nw.net.NwUrlRequest');
 OJ.importJs('nw.utils.NwCacheManager');
-OJ.importJs('oj.nav.OjView');
+OJ.importJs('oj.views.OjView');
 OJ.importJs('oj.events.OjMouseEvent');
 OJ.importJs('oj.fx.OjFade');
 OJ.importJs('oj.fx.OjResize');
@@ -11,7 +11,7 @@ OJ.importJs('oj.fx.OjTweenEvent');
 OJ.importJs('oj.fx.OjTweenSet');
 OJ.importJs('oj.net.OjRpc');
 
-OJ.importCss('nw.app.NwApp');
+OJ.importCss('nw.apps.NwApp');
 
 
 OJ.defineClass(

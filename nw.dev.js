@@ -234,7 +234,7 @@ OJ.extendClass(
 			'token' : null,
 			'user'  : null
 		},
-		'_class_path' : 'nw.app.NwSession',
+		'_class_path' : 'nw.apps.NwSession',
 
 		'_constructor' : function(/*token, data*/){
 			this._super(OjActionable, '_constructor', []);

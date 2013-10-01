@@ -1,4 +1,4 @@
-OJ.importJs('oj.components.OjItemRenderer');
+OJ.importJs('oj.renderers.OjItemRenderer');
 OJ.importJs('oj.components.OjButton');
 
 OJ.importCss('nw.window.NwActionButton');

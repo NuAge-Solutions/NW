@@ -1,4 +1,4 @@
-OJ.importJs('nw.app.NwApp');
+OJ.importJs('nw.apps.NwApp');
 //OJ.importJs('nw.nav.NwNavRoute');
 OJ.importJs('oj.nav.OjTabNavController');
 OJ.importJs('oj.nav.OjNavStack');

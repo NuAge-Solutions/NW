@@ -1,4 +1,4 @@
-OJ.importJs('oj.list.OjListItem');
+OJ.importJs('oj.renderers.OjListItem');
 
 
 'use strict';

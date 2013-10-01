@@ -2,6 +2,6 @@
     "" : {
         "package" : "nw",
         "includes" : ["*"],
-        "excludes" : ["nw.system.*", "nw.location.*", "nw.app.NwFlowedApp", "nw.app.NwTabbedApp"]
+        "excludes" : ["nw.system.*", "nw.location.*", "nw.apps.NwFlowedApp", "nw.apps.NwTabbedApp"]
     }
 }

@@ -2,17 +2,17 @@
   "" : {
     "templates" : {
       "nw.components.NwMarquee" : "<div><div var=prerender></div><stack var=container></stack></div>",
-      "nw.app.NwApp" : "<div><div var=nav class=OjFlowNavController class-path=\"oj.nav.FlowNavController\"></div><div var=stack class=OjStack class-path=\"oj.components.Stack\"></div></div>",
+      "nw.apps.NwApp" : "<div><div var=nav class=OjFlowNavController class-path=\"oj.nav.FlowNavController\"></div><div var=stack class=OjStack class-path=\"oj.components.Stack\"></div></div>",
+      "nw.window.NwActionCard" : "<div><div var=underlay></div><div var=pane><button var=cancelBtn on-click=_onCancelClick>Cancel</button></div></div>",
       "nw.components.NwScrollPane" : "<div><div var=content><div var=container></div></div></div>",
       "nw.window.NwActionButton" : "<div><button var=btn></button></div>",
-      "nw.components.NwTray" : "<div><div var=tray></div><div var=container></div></div>",
-      "nw.window.NwActionCard" : "<div><div var=underlay></div><div var=pane><button var=cancelBtn on-click=_onCancelClick>Cancel</button></div></div>"
+      "nw.components.NwTray" : "<div><div var=tray></div><div var=container></div></div>"
     },
     "css" : [
       "css/NW.css",
       "css/window/NwActionCard.css",
       "css/window/NwActionButton.css",
-      "css/app/NwApp.css",
+      "css/apps/NwApp.css",
       "css/components/NwTray.css",
       "css/components/NwMarquee.css",
       "css/components/NwCarousel.css",
@@ -23,9 +23,9 @@
     ],
     "js" : [
       "js/NW.js",
-      "js/app/NwAppManager.js",
-      "js/app/NwApp.js",
-      "js/app/NwSession.js",
+      "js/apps/NwAppManager.js",
+      "js/apps/NwApp.js",
+      "js/apps/NwSession.js",
       "js/window/NwWindowManager.js",
       "js/window/NwActionCard.js",
       "js/window/NwActionButton.js",
@@ -42,7 +42,7 @@
       "js/analytics/NwAnalyticsView.js",
       "js/analytics/NwAnalyticsEngine.js",
       "js/analytics/NwGoogleAnalytics.js",
-      "js/app/NwTrayApp.js",
+      "js/apps/NwTrayApp.js",
       "js/components/NwTray.js",
       "js/components/NwCarousel.js",
       "js/components/NwMarquee.js",

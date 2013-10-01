@@ -1,5 +1,5 @@
-OJ.importJs('nw.app.NwApp');
-OJ.importJs('nw.app.NwSession');
+OJ.importJs('nw.apps.NwApp');
+OJ.importJs('nw.apps.NwSession');
 OJ.importJs('nw.utils.NwCacheManager');
 
 OJ.importJs('oj.events.OjActionable');

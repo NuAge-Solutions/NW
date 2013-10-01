@@ -1,4 +1,4 @@
-OJ.importJs('nw.app.NwAppManager');
+OJ.importJs('nw.apps.NwAppManager');
 OJ.importJs('nw.data.NwData');
 OJ.importJs('nw.data.properties.NwDateProperty');
 OJ.importJs('nw.data.properties.NwNumberProperty');

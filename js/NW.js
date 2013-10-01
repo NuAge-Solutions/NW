@@ -213,7 +213,7 @@ OJ.definePackage(
         this.isNative(url.getQueryParam('nw-gateway'))
       }
 
-      OJ.importJs('nw.app.NwAppManager');
+      OJ.importJs('nw.apps.NwAppManager');
       OJ.importJs('nw.events.NwEvent');
       OJ.importJs('nw.net.NwRpc');
       OJ.importJs('oj.events.OjOrientationEvent');
