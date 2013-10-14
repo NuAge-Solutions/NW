@@ -1,0 +1,99 @@
+{
+  "nw" : {
+    "" : {
+      "css" : [
+        "css/NW.css",
+        "css/window/NwActionCard.css",
+        "css/window/NwActionButton.css",
+        "css/apps/NwApp.css",
+        "css/components/NwTray.css",
+        "css/components/NwMarquee.css",
+        "css/components/NwCarousel.css",
+        "css/components/NwScrollPane.css"
+      ],
+      "js" : [
+        "js/NW.js",
+        "js/apps/NwAppManager.js",
+        "js/apps/NwApp.js",
+        "js/apps/NwSession.js",
+        "js/window/NwWindowManager.js",
+        "js/window/NwActionCard.js",
+        "js/window/NwActionButton.js",
+        "js/net/NwUrlLoader.js",
+        "js/net/NwUrlRequest.js",
+        "js/utils/NwCacheManager.js",
+        "js/events/NwEvent.js",
+        "js/net/NwRpc.js",
+        "js/analytics/NwAnalytics.js",
+        "js/analytics/NwAnalyticsAction.js",
+        "js/analytics/NwAnalyticsData.js",
+        "js/analytics/NwAnalyticsEvent.js",
+        "js/analytics/NwAnalyticsMessage.js",
+        "js/analytics/NwAnalyticsView.js",
+        "js/analytics/NwAnalyticsEngine.js",
+        "js/analytics/NwGoogleAnalytics.js",
+        "js/apps/NwTrayApp.js",
+        "js/components/NwTray.js",
+        "js/components/NwCarousel.js",
+        "js/components/NwMarquee.js",
+        "js/components/NwScrollPane.js",
+        "js/layouts/NwColumnLayout.js",
+        "js/layouts/NwLayout.js",
+        "js/data/NwData.js",
+        "js/data/NwDataEvent.js",
+        "js/data/NwDataErrorEvent.js",
+        "js/data/properties/NwProperty.js",
+        "js/data/properties/NwUuidProperty.js",
+        "js/data/NwDataForm.js",
+        "js/data/NwDataItemRenderer.js",
+        "js/data/NwDataListItem.js",
+        "js/data/NwDataView.js",
+        "js/data/NwLink.js",
+        "js/data/NwRailsData.js",
+        "js/data/properties/NwDateProperty.js",
+        "js/data/properties/NwNumberProperty.js",
+        "js/data/NwRailsUser.js",
+        "js/data/NwUser.js",
+        "js/data/properties/NwTextProperty.js",
+        "js/data/properties/NwBooleanProperty.js",
+        "js/data/properties/NwEmailProperty.js",
+        "js/data/properties/NwFileProperty.js",
+        "js/data/properties/NwMediaProperty.js",
+        "js/data/properties/NwObjectProperty.js",
+        "js/data/properties/NwReferenceProperty.js",
+        "js/data/properties/NwUrlProperty.js",
+        "js/form/NwSelector.js",
+        "js/layouts/NwFreeformLayout.js",
+        "js/layouts/NwGridLayout.js",
+        "js/layouts/NwRowLayout.js"
+      ]
+    },
+    "_templates" : {
+      "nw.components.NwMarquee" : "<div><div var=prerender></div><stack var=container></stack></div>",
+      "nw.apps.NwApp" : "<div><div var=nav class=OjFlowNavController class-path=\"oj.nav.FlowNavController\"></div><div var=stack class=OjStack class-path=\"oj.components.Stack\"></div></div>",
+      "nw.window.NwActionCard" : "<div><div var=underlay></div><div var=pane><button var=cancelBtn on-click=_onCancelClick>Cancel</button></div></div>",
+      "nw.components.NwScrollPane" : "<div><div var=content><div var=container></div></div></div>",
+      "nw.window.NwActionButton" : "<div><button var=btn></button></div>",
+      "nw.components.NwTray" : "<div><div var=tray></div><div var=container></div></div>"
+    },
+    "crypto" : {
+      "css" : [],
+      "js" : [
+        "js/crypto/NwCryptoAlgorithm.js",
+        "js/crypto/NwCryptoManager.js"
+      ]
+    },
+    "social" : {
+      "css" : [
+        "css/social/NwFacebook.css",
+        "css/social/NwPinterest.css",
+        "css/social/NwTwitter.css"
+      ],
+      "js" : [
+        "js/social/NwFacebook.js",
+        "js/social/NwPinterest.js",
+        "js/social/NwTwitter.js"
+      ]
+    }
+  }
+}
