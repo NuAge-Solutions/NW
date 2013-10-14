@@ -39,6 +39,8 @@
         "js/components/NwScrollPane.js",
         "js/layouts/NwColumnLayout.js",
         "js/layouts/NwLayout.js",
+        "js/crypto/NwCryptoAlgorithm.js",
+        "js/crypto/NwCryptoManager.js",
         "js/data/NwData.js",
         "js/data/NwDataEvent.js",
         "js/data/NwDataErrorEvent.js",
