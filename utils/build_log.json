@@ -32,6 +32,7 @@
         "js/analytics/NwAnalyticsView.js",
         "js/analytics/NwAnalyticsEngine.js",
         "js/analytics/NwGoogleAnalytics.js",
+        "js/apps/NwTabbedApp.js",
         "js/apps/NwTrayApp.js",
         "js/components/NwTray.js",
         "js/components/NwCarousel.js",
