@@ -1,0 +1,17 @@
+{
+  "name"      : "oj",
+  "namespace" : "oj",
+  "source"    : "~/Workspace/Projects/Objective-JS",
+
+  "excludes"  : ["*.DS_Store", "*.git", "*.gitignore", "*.svn"],
+  "includes"  : [],
+  "themes"    : ["default"],
+
+  "packages"  : {
+    "" : {
+      "dependencies" : [],
+      "excludes"     : ["oj.layout.*"],
+      "includes"     : ["*"]
+    }
+  }
+}
