@@ -79,8 +79,8 @@ OJ.extendClass(
 				if(c){
 					var obj, id = data[c.PRIMARY_KEY];
 
-					if(id && c.CACHE[id]){
-						obj = c.CACHE[id];
+					if(id && c._CACHE[id]){
+						obj = c._CACHE[id];
 					}
 					else{
 						obj = new c();

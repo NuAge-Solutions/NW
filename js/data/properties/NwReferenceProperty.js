@@ -205,7 +205,7 @@ OJ.extendClass(
 						}
 					}
 
-					this.property(key, val);
+					this.property(key, val = isArray(val) ? new OjCollection(val) : val);
 
 					if(val){
 						if(val.is('NwData')){

@@ -33,8 +33,8 @@ OJ.extendClass(
 				i_map[e_map[key]] = key;
 			}
 
-			this._static.CACHE = {};
 			this._static._BACKLOG = [];
+      this._static._CACHE = {};
 		},
 
 
@@ -557,13 +557,13 @@ OJ.extendClass(
 			var id = this.getId();
 
 			if(id){
-				delete this._static.CACHE[id];
+				delete this._static._CACHE[id];
 			}
 
 			this.property('id', val);
 
 			if(val){
-				this._static.CACHE[val] = this;
+				this._static._CACHE[val] = this;
 			}
 		}
 	},
@@ -572,8 +572,6 @@ OJ.extendClass(
 		'CLONE'   : 'clone',
 		'DEFAULT' : 'default',
 
-
-		'CACHE' : {},
 
 		'DEFINITION' : {
 			'id' : new NwUuidProperty()
@@ -591,7 +589,8 @@ OJ.extendClass(
 
 
 		// Static Protected Functions
-		'_BACKLOG' : [],
+    '_BACKLOG' : [],
+    '_CACHE'   : {},
 
 		'_onAppManagerInit' : function(evt){
 			AppManager.removeEventListener(OjEvent.INIT, this, '_onAppManagerInit');
@@ -614,7 +613,9 @@ OJ.extendClass(
 				return false;
 			}
 
-			AppManager.addEventListener(OjEvent.INIT, this, '_onAppManagerInit');
+      if(!this._BACKLOG.length){
+        AppManager.addEventListener(OjEvent.INIT, this, '_onAppManagerInit');
+      }
 
 			this._BACKLOG.push([method, args]);
 
@@ -622,17 +623,20 @@ OJ.extendClass(
 		},
 
 		'_callApi' : function(url, data, method, onComplete, onFail){
-			if(this._backlogCall('_callApi', arguments)){
-				return;
-			}
+      if(this._backlogCall('_callApi', arguments)){
+        return null;
+      }
 
-			return this._callApiWithRequest(AppManager.apiRequest(url, data, method), onComplete, onFail);
+      return this._callApiWithRequest(
+        AppManager.apiRequest(url, data, method),
+        onComplete, onFail
+      );
 		},
 
 		'_callApiWithRequest' : function(req, onComplete, onFail){
-			req.addEventListener(OjEvent.COMPLETE, this, onComplete);
-			req.addEventListener(OjEvent.FAIL, this, onFail);
-			req.load();
+      req.addEventListener(OjEvent.COMPLETE, this, onComplete);
+      req.addEventListener(OjEvent.FAIL, this, onFail);
+      req.load();
 
 			return req;
 		},
@@ -656,11 +660,12 @@ OJ.extendClass(
 
 		'_onApiLoad' : function(evt, type, data/*, key, old_data*/){
 			var args = arguments,
-				ln = args.length,
-				key = ln > 3 ? args[3] : null;
+				  ln = args.length,
+				  key = ln > 3 ? args[3] : null,
+          d;
 
 			if(evt){
-				var d = this.importData(evt.getTarget().getData(), NwData.API);
+				d = this.importData(evt.getTarget().getData(), NwData.API);
 
 				if(key){
 					this[data][key] = d;
@@ -671,14 +676,13 @@ OJ.extendClass(
 
 				evt = OJ.destroy(evt);
 			}
+      else{
+        d = key ? this[data][key] : this[data];
+      }
 
-			this.dispatchEvent(
-				new NwDataEvent(
-					type,
-					key ? this[data][key] : this[data],
-					ln > 4 ? args[4] : null
-				)
-			);
+			this.dispatchEvent(new NwDataEvent(type, d, ln > 4 ? args[4] : null));
+
+      return d;
 		},
 
 
@@ -695,20 +699,26 @@ OJ.extendClass(
 			EventManager.dispatchEvent(this, evt);
 		},
 
-		'get' : function(id){
-			if(!this.CACHE[id]){
-				var c = this;
+		'get' : function(id/*, auto_create=false*/){
+      var auto_create = arguments.length > 1 && arguments[1],
+          c = this,
+          data;
 
-				var data = new c();
+			if(!this._CACHE[id] && auto_create){
+				data = new c();
 				data.setId(id);
 			}
 
-			return this.CACHE[id];
+			return this._CACHE[id];
 		},
 
 		'getProperty' : function(prop){
 			return this.DEFINITION[prop];
 		},
+
+    'has' : function(id){
+      return isSet(this._CACHE[id]);
+    },
 
 		'hasEventListener' : function(type){
 			return EventManager.hasEventListener(this, type);
@@ -728,12 +738,12 @@ OJ.extendClass(
 
 		'importData' : function(data/*, mode*/){
 			var args = arguments,
-				mode = args.length > 1 ? args[1] : NwData.DEFAULT;
+				  ln, mode = args.length > 1 ? args[1] : NwData.DEFAULT;
 
 			if(isArray(data)){
-				var ln = data.length;
+				ln = data.length;
 
-				while(ln-- > 0){
+				for(; ln--;){
 					data[ln] = this.importData(data[ln], mode);
 				}
 
@@ -746,8 +756,8 @@ OJ.extendClass(
 				if(c){
 					var obj, id = data[this.PRIMARY_KEY];
 
-					if(id && c.CACHE[id]){
-						obj = c.CACHE[id];
+					if(id && c._CACHE[id]){
+						obj = c._CACHE[id];
 					}
 					else{
 						obj = new c();
@@ -767,7 +777,7 @@ OJ.extendClass(
 				return null;
 			}
 
-			var data = this.get(id);
+			var data = this.get(id, true);
 
 			if(data.isLoaded() && (arguments.length == 1 || !arguments[1])){
 				this.dispatchEvent(new NwDataEvent(NwDataEvent.LOAD, data));
