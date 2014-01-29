@@ -1,7 +1,6 @@
 'use strict';
 OJ.importJs('nw.utils.NwCacheManager');
 
-
 OJ.extendManager(
 	'Facebook', 'NwFacebook', [OjActionable],
 	{
@@ -102,7 +101,7 @@ OJ.extendManager(
 			if(!this._session){
 				this._session = {};
 			}
-			// setup the facebook sdk includes
+      // setup the facebook sdk includes
 			if(NW.isNative()){
 				NW.addEventListener(this.LOGIN, this, '_onLogin');
 				NW.addEventListener(this.LOGIN_FAIL, this, '_onLoginFail');
@@ -112,8 +111,15 @@ OJ.extendManager(
 			else{
 				// setup the init function
 				window.fbAsyncInit = function() {
-					Facebook.init();
+          Facebook.init();
 				};
+			}
+      // listen for when the OJ is ready
+			if(OJ.isReady()){
+				this._onOjReady(null);
+			}
+			else{
+				OJ.addEventListener(OjEvent.READY, this, '_onOjReady');
 			}
 		},
 		'_destructor' : function(){
@@ -125,11 +131,7 @@ OJ.extendManager(
 
 		'_init' : function(){
 			var url = HistoryManager.get();
-      // add the required root div
-			OJ.addChildAt(new OjStyleElement('<div id="fb-root"></div>'), 0);
-			// load the sdk
-			OJ.loadJs('//connect.facebook.net/en_US/all.js', true, false);
-			FB.Event.subscribe(
+      FB.Event.subscribe(
 				'auth.statusChange',
 				function(response) {
 					Facebook._onStatusChange(response);
@@ -179,6 +181,14 @@ OJ.extendManager(
 		'_onLogout' : function(evt){
 			this._logout(evt.getData());
 		},
+    '_onOjReady' : function(evt){
+      // add the required root div
+			OJ.addChildAt(new OjStyleElement('<div id="fb-root"></div>'), 0);
+      // load the sdk
+			OJ.loadJs('//connect.facebook.net/en_US/all.js', true, false);
+      // cleanup event listener
+      OJ.removeEventListener(OjEvent.READY, this, '_onOjReady');
+    },
 		'_onStatusChange' : function(response){
 			if(response.authResponse){
 				Facebook._login(response.authResponse);
@@ -276,7 +286,7 @@ OJ.extendManager(
 			return null;
 		},
 		'setAppId' : function(app_id){
-			if(app_id == this._app_id){
+      if(app_id == this._app_id){
 				return;
 			}
 			this._app_id = app_id;

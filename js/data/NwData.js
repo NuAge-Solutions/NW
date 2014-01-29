@@ -18,9 +18,9 @@ OJ.extendClass(
 			NwData.registerDataType(this._static.TYPE, this._class_name);
 
 			var def = this._static.DEFINITION,
-				e_map = this._static.EXPORT_MAP,
-				i_map = (this._static.IMPORT_MAP = Object.clone(this._static.IMPORT_MAP)),
-				key;
+          e_map = this._static.EXPORT_MAP,
+          i_map = (this._static.IMPORT_MAP = Object.clone(this._static.IMPORT_MAP)),
+          key;
 
 			// setup the definition
 			for(key in def){
@@ -49,6 +49,14 @@ OJ.extendClass(
 			this._super(OjActionable, '_constructor', []);
 
 			this._data = {};
+
+      var def = this._static.DEFINITION,
+          key;
+
+			// setup the definition
+			for(key in def){
+				this._data[key] = def[key].getDefaultValue();
+			}
 
 			this._dirty = [];
 
@@ -500,7 +508,7 @@ OJ.extendClass(
 
 		'property' : function(prop/*, val*/){
       var args = arguments,
-				prev = this._data[prop];
+				  prev = this._data[prop];
 
 			if(args.length > 1){
 				var val = args[1];

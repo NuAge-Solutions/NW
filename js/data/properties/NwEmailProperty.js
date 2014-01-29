@@ -1,8 +1,6 @@
 OJ.importJs('nw.data.properties.NwTextProperty');
 
 
-'use strict';
-
 OJ.extendClass(
 	'NwEmailProperty', [NwTextProperty],
 	{
@@ -13,8 +11,6 @@ OJ.extendClass(
 
 
 		'makeInput' : function(dom){
-			OJ.importJs('oj.form.OjEmailInput');
-
 			var input = new OjEmailInput(this._name, this._label, this._defaultValue);
 
 			input.setDefault(this._default);

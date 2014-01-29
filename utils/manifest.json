@@ -1,6 +1,7 @@
 {
   "name"      : "nw",
   "namespace" : "nw",
+  "source"    : "../",
 
   "excludes"  : ["*.DS_Store", "*.git", "*.gitignore", "*.svn"],
   "includes"  : [],

@@ -109,10 +109,9 @@ OJ.extendClass(
 			// setup the name
 			this._name = key;
 
-
-			// setup the getter & setter
+      // setup the getter & setter
 			var getter = 'get' + u_key,
-				setter = 'set' + u_key;
+				  setter = 'set' + u_key;
 
 			// setup the getter function if one doesn't already exist
 			if(!obj[getter]){

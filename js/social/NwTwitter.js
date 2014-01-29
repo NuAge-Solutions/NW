@@ -3,8 +3,6 @@ OJ.importJs('oj.events.OjActionable');
 OJ.importCss('nw.social.NwTwitter');
 
 
-'use strict';
-
 OJ.extendManager(
 	'Twitter', 'NwTwitter', [OjActionable],
 	{

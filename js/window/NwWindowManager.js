@@ -17,7 +17,7 @@ OJ.extendManager(
 		'_actionCard' : function(buttons/*, title = null, cancel_lbl = "Cancel", cancel_icon = null*/){
 			var args = arguments;
 
-				args[0] = new OjList(buttons, NwActionButton);
+			args[0] = new OjList(buttons, NwActionButton);
 
 			return this.makeActionCard.apply(this, args);
 		},

@@ -1,6 +1,5 @@
 OJ.importJs('oj.form.OjSelector');
 
-'use strict';
 
 OJ.extendComponent(
 	'NwSelector', [OjSelector],

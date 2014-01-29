@@ -3,8 +3,6 @@ OJ.importJs('oj.events.OjActionable');
 OJ.importCss('nw.social.NwPinterest');
 
 
-'use strict';
-
 OJ.extendManager(
 	'Pinterest', 'NwPinterest', [OjActionable],
 	{
