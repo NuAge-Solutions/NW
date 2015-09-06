@@ -1,0 +1,22 @@
+.NwTray,
+.NwTray > .container {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+}
+    .NwTray > .container,
+    .NwTray > .panel {
+        position: absolute;
+
+        top: 0px;
+        left: 0px;
+    }
+
+    .NwTray > .panel {
+        bottom: 0px;
+
+        width: 0px;
+
+        overflow: hidden;
+    }

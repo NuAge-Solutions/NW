@@ -1,0 +1,15 @@
+.NwOrderedDataForm {
+
+}
+    .NwOrderedDataForm > .actions {
+        text-align: right;
+
+        padding: 0px 20px 20px;
+    }
+
+    .NwOrderedDataForm > .container {
+        display: block;
+    }
+        .NwOrderedDataForm > .container > * {
+            margin-bottom: 10px;
+        }

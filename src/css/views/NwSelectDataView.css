@@ -1,0 +1,49 @@
+.NwSelectDataView {
+
+}
+    .NwSelectDataView > .container > .selector > .wrapper > .psuedoInput {
+        padding: 0px;
+    }
+        .NwSelectDataView > .container > .selector .OjList > .OjOption {
+            display: block;
+
+            padding: 0px;
+
+            font-weight: normal;
+        }
+        .NwSelectDataView > .container > .selector .OjList > .OjOption:after {
+            display: none;
+        }
+            .NwSelectDataView > .container > .selector .OjList > .OjOption > * {
+                display: block;
+            }
+            .NwSelectDataView > .container > .selector .OjList > .OjOption > .indicator {
+                position: absolute;
+
+                top: 50%;
+                left: 10px;
+
+                width: 14px;
+                height: 14px;
+
+                margin: -7px 0px 0px;
+                padding: 0px;
+
+                background: #FFF;
+
+                border-radius: 2px;
+
+                z-index: 3;
+            }
+            .NwSelectDataView > .container > .selector .OjList > .OjOption.selected > .indicator {
+                background: #333;
+            }
+                .NwSelectDataView > .container > .selector .OjList > .OjOption > .indicator > * {
+                    display: none;
+                }
+
+            .NwSelectDataView > .container > .selector .OjList > .OjOption > .option {
+                padding-left: 34px;
+
+                z-index: 1;
+            }

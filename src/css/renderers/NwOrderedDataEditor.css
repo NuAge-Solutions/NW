@@ -1,0 +1,63 @@
+.NwOrderedDataEditor {
+    padding: 0px;
+    background: none;
+}
+    .NwOrderedDataEditor > .handle {
+        position: absolute;
+
+        top: 0px;
+        left: 0px;
+
+        width: 40px;
+        height: 20px;
+
+        padding: 10px 0px;
+
+        font-weight: bold;
+        text-align: center;
+
+        z-index: 5;
+    }
+    .NwOrderedDataEditor > .form {
+        padding-left: 40px;
+
+        z-index: 1;
+    }
+
+    .NwOrderedDataEditor > .actions {
+        position: absolute;
+
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+
+        background: none;
+    }
+        .NwOrderedDataEditor > .actions > .delete_btn {
+            width: 20px;
+
+            color: #CD2626;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+.NwOrderedDataEditor.drag {
+    position: absolute;
+
+    z-index: 999;
+}
+    .NwOrderedDataEditor.drag > .item > .wrapper > .OjLabel {
+        visibility: hidden;
+    }
+
+    .NwOrderedDataEditor.drag > .actions {
+        display: none;
+    }
+
+/*.ApRecipeStepDragProxy {*/
+    /*background: none !important;*/
+    /*border: none !important;*/
+
+    /*margin: 0px;*/
+    /*padding: 0px;*/
+/*}*/

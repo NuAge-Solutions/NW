@@ -1,0 +1,60 @@
+{
+
+  "oj" : "dependencies/oj/manifest.json",
+
+  "nw" : {
+
+    "source" : "src",
+
+    "packages" : {
+
+      "nw" : {
+
+        "assets" : ["*"],
+        "assets_exclude" : [".*", "crypto/*", "social/*"],
+
+        "classes" : ["*"],
+        "classes_exclude" : ["apps/NwFlowedApp", "apps/NwTabbedApp", "crypto/*", "location/*", "social/*", "system/*"],
+
+        "pre_compiled" : [],
+
+        "themes" : ["*"],
+        "themes_exclude" : []
+
+      },
+
+      "nw.crypto" : {
+
+        "assets" : ["crypto/*"],
+        "assets_exclude" : [],
+
+        "classes" : ["crypto/*"],
+        "classes_exclude" : [],
+
+        "pre_compiled" : [],
+
+        "themes" : [],
+        "themes_exclude" : []
+
+      },
+
+      "nw.social" : {
+
+        "assets" : ["social/*"],
+        "assets_exclude" : [],
+
+        "classes" : ["social/*"],
+        "classes_exclude" : [],
+
+        "pre_compiled" : [],
+
+        "themes" : [],
+        "themes_exclude" : []
+
+      }
+
+    }
+
+  }
+
+}

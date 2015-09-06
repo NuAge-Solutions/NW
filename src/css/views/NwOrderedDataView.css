@@ -1,0 +1,30 @@
+.NwOrderedDataView {
+    width: 100%;
+    height: 100%;
+}
+    .NwOrderedDataView .OjList {
+        padding: 20px 20px 10px;
+    }
+        .NwOrderedDataView .OjList > * {
+            margin-bottom: 10px;
+        }
+            .NwOrderedDataView .OjList > * > .wrapper {
+                display: table;
+            }
+                .NwOrderedDataView .OjList > * > .wrapper > * {
+                    display: table-cell;
+                    width: 100%;
+
+                    color: #111;
+                    font-size: 16px;
+                }
+                .NwOrderedDataView .OjList > * > .wrapper > *:first-child {
+                    width: 20px;
+                    min-width: 20px;
+
+                    padding-right: 10px;
+
+                    color: #555;
+
+                    text-align: right;
+                }

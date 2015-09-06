@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <script type="text/javascript">
+            function handleAuth(){
+                // once the window is open
+                window.opener.FB.getLoginStatus(window.opener.Facebook._onStatusChange, true);
+
+                window.close();
+            }
+        </script>
+    </head>
+    <body onload="handleAuth();"></body>
+</html>

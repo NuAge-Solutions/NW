@@ -1,0 +1,27 @@
+.NwDataEditor {
+    background: #EEE;
+
+    border-radius: 5px;
+
+    min-height: 10px;
+
+    padding: 10px;
+}
+    .NwDataEditor > .item {
+
+    }
+
+    .NwDataEditor > .actions {
+        right: 10px;
+
+        background: #EEE;
+
+        z-index: 3;
+    }
+    .NwDataEditor:HOVER > .actions {
+        display: block;
+    }
+        .NwDataEditor > .actions > * {
+            margin: 0px 0px 0px 10px;
+            line-height: 0px;
+        }

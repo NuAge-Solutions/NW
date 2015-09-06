@@ -1,0 +1,36 @@
+.NwDataInput {
+    min-height: 40px;
+    height: auto;
+}
+    .NwDataInput > .wrapper > .psuedoInput > .stem > .list {
+        width: 100%;
+    }
+.NwDataInput .buttons {
+    padding-top: 3px;
+
+    text-align: right;
+}
+    .NwDataInput .buttons .add_btn {
+        width: 20px;
+        height: 20px;
+
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+    .NwDataInput.no-select .buttons .add_btn {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .NwDataInput .buttons .select_btn {
+        width: 20px;
+        height: 20px;
+
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+
+        border-right: 1px solid rgba(255, 255, 255, .15);
+    }
+    .NwDataInput.no-select .buttons .select_btn {
+        display: none;
+    }
