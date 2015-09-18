@@ -245,7 +245,7 @@ OJ.extendComponent(
 //			}
   },
 	{
-		'_TAGS' : ['scrollpane'],
+		'_TAGS' : ['scroll-pane', 'nw-scroll', 'scroll'],
 
 		'BOTH' : 'x',
 		'X'    : 'x',

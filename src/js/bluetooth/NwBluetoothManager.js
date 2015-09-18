@@ -1,32 +1,44 @@
-OJ.importJs('nw.bluetooth.NwBluetoothDevice');
-OJ.importJs('nw.bluetooth.NwBluetoothError');
-OJ.importJs('nw.bluetooth.NwBluetoothEvent');
+OJ.importJs('nw.bluetooth.NwBluetoothDiscoverErrors');
+OJ.importJs('nw.bluetooth.NwBluetoothDiscoverEvents');
+OJ.importJs('nw.bluetooth.NwBluetoothObjects');
 
 
 OJ.extendManager(
 	'BluetoothManager', 'NwBluetoothManager', [NwManager],
 	{
+        // Internal properties
+        '_devices' : {},
+
         '_namespace' : 'nwBluetooth',  '_notified' : false,
 
         '_read_callbacks' : {},  '_rssi_callbacks' : {},
 
         '_get_props_' : {
-            'isAvailable' : null
+            'is_available' : null
         },
 
 
+        // Internal methods
         '_constructor' : function(manager){
             var self = this;
 
             self._super(NwManager, '_constructor', []);
 
-            NW.addEventListener('nwOnBluetoothCharDiscover', self, '_onCharDiscover');
-            NW.addEventListener('nwOnBluetoothDataSent', self, '_onDataSent');
-            NW.addEventListener('nwOnBluetoothDataReceived', self, '_onDataReceived');
-            NW.addEventListener('nwOnBluetoothDetectDevices', self, '_onDetectDevices');
+            NW.addEventListener('nwOnBluetoothCharacteristicDiscover', self, '_onCharacteristicDiscover');
+            NW.addEventListener('nwOnBluetoothCharacteristicRead', self, '_onCharacteristicRead');
+            NW.addEventListener('nwOnBluetoothCharacteristicUpdate', self, '_onCharacteristicUpdate');
+            NW.addEventListener('nwOnBluetoothCharacteristicWrite', self, '_onCharacteristicWrite');
             NW.addEventListener('nwOnBluetoothDeviceConnect', self, '_onDeviceConnect');
             NW.addEventListener('nwOnBluetoothDeviceDisconnect', self, '_onDeviceDisconnect');
+            NW.addEventListener('nwOnBluetoothDeviceDiscover', self, '_onDeviceDiscover');
+            NW.addEventListener('nwOnBluetoothDeviceNameUpdate', self, '_onDeviceNameUpdate');
             NW.addEventListener('nwOnBluetoothDeviceRssiUpdate', self, '_onDeviceRssiUpdate');
+            NW.addEventListener('nwOnBluetoothDeviceUpdate', self, '_onDeviceUpdate');
+            NW.addEventListener('nwOnBluetoothDiscoverCharacteristics', self, '_onDiscoverCharacteristics');
+            NW.addEventListener('nwOnBluetoothDiscoverDevices', self, '_onDiscoverDevices');
+            NW.addEventListener('nwOnBluetoothDiscoverServices', self, '_onDiscoverServices');
+            NW.addEventListener('nwOnBluetoothServiceDiscover', self, '_onServiceDiscover');
+            NW.addEventListener('nwOnBluetoothServiceUpdate', self, '_onServiceUpdate');
         },
 
 
@@ -44,21 +56,37 @@ OJ.extendManager(
             return false;
         },
 
-        '_onCharDiscover' : function(evt){
-
+        '_uuid' : function(obj){
+            return isObjective(obj) ? obj.uuid : obj;
         },
 
-        '_onDataReceived' : function(evt){
-            var data = evt.data,
-                device =  NwBluetoothDevice.importData(data.device),
+
+        // Internal event listener methods
+        '_onCharacteristicDiscover' : function(evt){
+            var self = this,
+                data = evt.data,
+                char = NwBluetoothCharacteristic.importData(data.characteristic),
+                error = data.error;
+
+            if(error){
+                // TODO: add something here for char discovery error
+            }
+            else{
+                self.dispatchEvent(char._onDiscover());
+            }
+        },
+
+        '_onCharacteristicRead' : function(evt){
+            var self = this,
+                data = evt.data,
+                char =  NwBluetoothCharacteristic.importData(data.characteristic),
                 error = data.error,
-                event,
-                type = this.dataListenerType(device, data.service, data.characteristic),
-                callbacks = this._read_callbacks[type];
+                type = char.id,
+                callbacks = self._read_callbacks[type],
+                event;
 
             if(error){
                 // TODO: add onDataReceived error handling logic
-                event = new NwBluetoothDeviceError(type);
             }
             else{
                 if(callbacks){
@@ -72,37 +100,25 @@ OJ.extendManager(
                     delete callbacks[type];
                 }
 
-                event = new NwBluetoothDeviceEvent(type, device, data.data);
+                event = char._onRead(data.data);;
             }
 
             this.dispatchEvent(event);
         },
 
-        '_onDataSent' : function(evt){
-            // TODO: add onDataSent event handling logic
+        '_onCharacteristicUpdate' : function(evt){
+            // TODO: add on characteristic update event handling logic
         },
 
-        '_onDetectDevices' : function(evt){
-            var data = evt.data,
-                devices = data ? NwBluetoothDevice.importData(data.devices) : null,
-                error = data ? data.error : null,
-                event;
-            print('detect', devices);
-            if(devices && !error){
-                event = new NwBluetoothEvent(NwBluetoothEvent.DETECT_DEVICES, devices);
-            }
-            else{
-                event = new NwBluetoothError(NwBluetoothError.DETECT_DEVICES, devices);
-            }
-
-            this.dispatchEvent(event);
+        '_onCharacteristicWrite' : function(evt){
+            // TODO: add on characteristic write event handling logic
         },
 
         '_onDeviceConnect' : function(evt){
             var data = evt.data,
                 device = NwBluetoothDevice.importData(data.device),
                 error = data.error;
-            print('connect', device);
+
             if(device){
                 this.dispatchEvent(error ? device._onConnectError(error) : device._onConnect());
             }
@@ -112,10 +128,18 @@ OJ.extendManager(
             var data = evt.data,
                 device = NwBluetoothDevice.importData(data.device),
                 error = data.error;
-            print('disconnect', device);
+
             if(device){
                 this.dispatchEvent(device._onDisconnect(error));
             }
+        },
+
+        '_onDeviceDiscover' : function(evt){
+            // TODO: implement bluetooth device discover
+        },
+
+        '_onDeviceNameUpdate' : function(evt){
+            // TODO: implement bluetooth device name update
         },
 
         '_onDeviceRssiUpdate' : function(evt){
@@ -142,98 +166,215 @@ OJ.extendManager(
             }
         },
 
+        '_onDeviceUpdate' : function(evt){
+            // TODO: implement bluetooth device update
+        },
 
-        'addDataListener' : function(device, service, characteristic, context, callback){
-            var type = this.dataListenerType(device, service, characteristic);
+        '_onDiscovered' : function(type, discovered, error){
+            var event;
 
-            if(!this.hasEventListener(type)){
-                this._comm('addDataListener', [device.uuid, service, characteristic]);
+            if(error){
+                event = new NwBluetoothDiscoverError(NwBluetoothDiscoverError[type], discovered);
+            }
+            else{
+                event = new NwBluetoothDiscoverEvent(NwBluetoothDiscoverEvent[type], discovered);
             }
 
-            return this.addEventListener(type, context, callback);
+            this.dispatchEvent(event);
+        },
+
+        '_onDiscoverCharacteristics' : function(evt){
+            this._onDiscovered(
+                'DISCOVER_CHARACTERISTICS',
+                NwBluetoothCharacteristic.importData(evt.data.characteristics),
+                evt.data.error
+            );
+        },
+
+        '_onDiscoverDevices' : function(evt){
+            var self = this,
+                data = evt.data,
+                devices = NwBluetoothDevice.importData(data.devices);
+
+            devices.forEachReverse(function(item){
+                self._devices[item.uuid] = item;
+            });
+
+            this._onDiscovered('DISCOVER_DEVICES', devices, data.error);
+        },
+
+        '_onDiscoverServices' : function(evt){
+            this._onDiscovered(
+                'DISCOVER_SERVICES',
+                NwBluetoothService.importData(evt.data.services),
+                evt.data.error
+            );
+        },
+
+        '_onServiceDiscover' : function(evt){
+            var self = this,
+                cls = NwBluetoothServiceEvent,
+                data = evt.data,
+                service =  NwBluetoothService.importData(data.service),
+                error = data.error;
+
+            if(error){
+                // TODO: do something here
+            }
+            else{
+                var evt = new cls(cls.DISCOVER, service);
+
+                service.dispatchEvent(evt);
+
+                self.dispatchEvent(evt);
+            }
+        },
+
+        '_onServiceUpdate' : function(evt){
+
+        },
+
+
+        // Public event listener methods
+        'addDataListener' : function(device, service, characteristic, context, callback){
+            var self = this,
+                type = self.listenerType(device, service, characteristic);
+
+            if(!self.hasListener(device, service, characteristic)){
+                self._comm('addDataListener', [
+                    self._uuid(device), self._uuid(service), self._uuid(characteristic)
+                ]);
+            }
+
+            return self.addEventListener(type, context, callback);
+        },
+
+        'addServiceListener' : function(device, service, context, callback){
+            var self = this,
+                type = self.listenerType(device, service);
+
+            if(!self.hasListener(device, service)){
+                self._comm('addServiceListener', [
+                    self._uuid(device), self._uuid(service)
+                ]);
+            }
+
+            return self.addEventListener(type, context, callback);
+        },
+
+        'hasListener' : function(device, service, characteristic){
+            var self = this;
+
+            return self.hasEventListener(
+                self.listenerType(device, service, characteristic)
+            );
+        },
+
+        'listenerType' : function(device, service, characteristic){
+            var self = this;
+
+            return self._uuid(device) + ':' + self._uuid(service) +
+                   (characteristic ? ':' + self._uuid(characteristic) : '');
         },
 
         'removeDataListener' : function(device, service, characteristic, context, callback){
-            var type = this.dataListenerType(device, service, characteristic),
-                rtrn = this.removeEventListener(type, context, callback);
+            var self = this,
+                type = self.listenerType(device, service, characteristic),
+                rtrn = self.removeEventListener(type, context, callback);
 
-            if(!this.hasEventListener(type)){
-                this._comm('removeDataListener', [device.uuid, service, characteristic]);
+            if(!self.hasListener(device, service, characteristic)){
+                self._comm('removeDataListener', [
+                    self._uuid(device), self._uuid(service), self._uuid(characteristic)
+                ]);
+            }
+
+            return rtrn;
+        },
+
+        'removeServiceListener' : function(device, service, context, callback){
+            var self = this,
+                type = self.listenerType(device, service),
+                rtrn = self.removeEventListener(type, context, callback);
+
+            if(!self.hasListener(device, service)){
+                self._comm('removeServiceListener', [
+                    self._uuid(device), self._uuid(service)
+                ]);
             }
 
             return rtrn;
         },
 
 
+        // Public utility methods
         'connect' : function(device, timeout){
+            var self = this;
+
             if(!NW.isNative){
-                return this._notify_missing_bluetooth();
+                return self._notify_missing_bluetooth();
             }
 
-            var args = [device.uuid];
+            var args = [self._uuid(device)];
 
             if(!isUndefined(timeout)){
                 args.append(timeout);
             }
 
-            this._comm('connect', args);
+            self._comm('connect', args);
 
             return true;
         },
 
         'disconnect' : function(device, timeout){
+            var self = this;
+
             if(!NW.isNative){
-                return this._notify_missing_bluetooth();
+                return self._notify_missing_bluetooth();
             }
 
-            var args = [device.uuid];
+            var args = [self._uuid(device)];
 
             if(!isUndefined(timeout)){
                 args.append(timeout);
             }
 
-            this._comm('disconnect', args);
+            self._comm('disconnect', args);
 
             return true;
         },
 
-        'dataListenerType' : function(device, service, characteristic){
-            return device.uuid + ':' + service + ':' + characteristic;
-        },
-
-        '.isAvailable' : function(){
-            // TODO: make this actually check the native system for bluetooth support
-            return NW.isNative;
-        },
-
         'readData' : function(device, service, characteristic, callback){
+            var self = this;
+
             if(!NW.isNative){
-                return this._notify_missing_bluetooth();
+                return self._notify_missing_bluetooth();
             }
 
-            var args = [device.uuid, service, characteristic],
+            var args = [self._uuid(device), self._uuid(service), self._uuid(characteristic)],
                 type = args.join(':'),
-                callbacks = this._read_callbacks[type];
+                callbacks = self._read_callbacks[type];
 
             if(!callbacks){
-                callbacks = this._read_callbacks[type] = [];
+                callbacks = self._read_callbacks[type] = [];
             }
 
             callbacks.append(callback);
 
-            this._comm('readData', [device.uuid, service, characteristic]);
+            self._comm('readData', args);
         },
 
         'rssi' : function(device, callback){
+            var self = this;
+
             if(!NW.isNative){
-				return this._notify_missing_bluetooth();
+				return self._notify_missing_bluetooth();
 			}
 
-            var uuid = device.uuid,
-                callbacks = this._rssi_callbacks[uuid];
+            var uuid = self._uuid(device),
+                callbacks = self._rssi_callbacks[uuid];
 
             if(!callbacks){
-                callbacks = this._rssi_callbacks[uuid] = [];
+                callbacks = self._rssi_callbacks[uuid] = [];
             }
 
             callbacks.append(callback);
@@ -272,11 +413,20 @@ OJ.extendManager(
         },
 
         'writeData' : function(device, service, characteristic, data){
+            var self = this;
+
             if(!NW.isNative){
-                return this._notify_missing_bluetooth();
+                return self._notify_missing_bluetooth();
             }
 
-            this._comm('writeData', [device.uuid, service, characteristic, data]);
+            self._comm('writeData', [self._uuid(device), self._uuid(service), self._uuid(characteristic), data]);
+        },
+
+
+        // Public properties
+        '.is_available' : function(){
+            // TODO: make this actually check the native system for bluetooth support
+            return NW.isNative;
         }
 	}
 );

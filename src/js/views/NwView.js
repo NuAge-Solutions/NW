@@ -3,6 +3,8 @@ OJ.extendComponent(
 
         '_hideOverlay' : function(){
             AppManager.hideLoading(this._overlay);
+
+            this._overlay = null;
         },
 
         '_showOverlay' : function(msg){
@@ -10,6 +12,6 @@ OJ.extendComponent(
         }
     },
     {
-        '_TAGS' : ['view', 'nw-view']
+        '_TAGS' : ['view']  // override oj view tag
     }
 );

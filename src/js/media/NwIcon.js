@@ -1,12 +1,30 @@
 OJ.extendComponent(
     'NwIcon', [OjIcon], {
         '_props_' : {
+            'color' : null,
             'size' : null,
             'stack' : null
         },
 
         '_template' : '<i class="fa"></i>',
 
+
+        '=color' : function(val){
+            var self = this,
+                color = self._color;
+
+            if(color == val){
+                return;
+            }
+
+            if(color){
+                self.removeCss(color);
+            }
+
+            if(self._color = val){
+                self.addCss(val);
+            }
+        },
 
         '=size' : function(val){
             var self = this,

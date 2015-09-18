@@ -10,5 +10,8 @@ OJ.extendComponent(
 
       this._init();
     }
-	}
+  },
+    {
+        '_TAGS' : ['tray-app']
+    }
 );

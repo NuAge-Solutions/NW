@@ -11,7 +11,7 @@ OJ.extendClass(
     {
         // Compiler Functions
         '_post_compile_' : function(cls, proto){
-            NwData.registerDataType(cls.TYPE, proto._class_name);
+            NwData.registerDataType(cls.TYPE, proto.oj_class_name);
 
             var def = cls.DEFINITION,
                 e_map = cls.EXPORT_MAP,
@@ -258,7 +258,7 @@ OJ.extendClass(
                     // if the value is an object then we need to check the flatten property flag
                     if(isObject(val) && (prop = cls.getProperty(key)).flatten){
                         for(key in val){
-                            if(key == cls.DATA_KEY){
+                            if(key == cls.TYPE_KEY){
                                 continue;
                             }
 
@@ -401,7 +401,6 @@ OJ.extendClass(
 
         'KEY' : 'id',
         'ORDER_KEY' : null,
-        'DATA_KEY' : '_class_name',
 
         'TYPE' : 'Data',
 
@@ -441,14 +440,14 @@ OJ.extendClass(
             var c = this,
                 data;
 
-            id = this.key(id);
+            id = c.key(id);
 
-            if(!this._CACHE[id] && auto_create){
+            if(!c._CACHE[id] && auto_create){
                 data = new c();
                 data.key(id);
             }
 
-            return this._CACHE[id];
+            return c._CACHE[id];
         },
 
         'getProperty' : function(prop){
@@ -495,7 +494,7 @@ OJ.extendClass(
             }
 
             if(isObject(data)){
-                var c = data[NwData.DATA_KEY] ? this.typeToClass(data[NwData.DATA_KEY]) : this;
+                var c = data[NwData.TYPE_KEY] ? this.typeToClass(data[NwData.TYPE_KEY]) : this;
 
                 if(c){
                     var obj, id = this.key(data[c.KEY]);

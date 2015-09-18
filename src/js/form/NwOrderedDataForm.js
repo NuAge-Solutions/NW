@@ -137,5 +137,8 @@ OJ.extendComponent(
 
             this._updateFormData();
         }
-	}
+	},
+    {
+        '_TAGS' : ['ordered-data-form']
+    }
 );

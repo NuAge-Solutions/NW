@@ -169,5 +169,8 @@ OJ.extendComponent(
         '=value' : function(val){
             this.item.value = val;
         }
-	}
+	},
+    {
+        '_TAGS' : ['ordered-data-editor', 'nw-e-ordered-data', 'e-ordered-data']
+    }
 );

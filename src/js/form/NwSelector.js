@@ -53,5 +53,8 @@ OJ.extendComponent(
 				this.summary.addEventListener(OjUiEvent.PRESS, this, '_onSummaryClick');
 			}
 		}
-	}
+	},
+    {
+        '_TAGS' : ['selector']  // override oj tag
+    }
 )

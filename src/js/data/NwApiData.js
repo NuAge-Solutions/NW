@@ -336,7 +336,7 @@ OJ.extendClass(
         'API' : 'api',
 
         // Data Definition
-        'DATA_KEY' : '__type__',
+        'TYPE_KEY' : '__type__',
 
         'DEFINITION' : {
             'id' : new NwUuidProperty()

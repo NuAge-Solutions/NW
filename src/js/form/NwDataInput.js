@@ -119,7 +119,7 @@ OJ.extendComponent(
         }
     },
     {
-        '_TAGS' : ['datainput']
+        '_TAGS' : ['data-input']
     }
 );
 
@@ -186,5 +186,8 @@ OJ.extendComponent(
                 data.addEventListener(NwDataEvent.SAVE, this, '_onDataSave');
             }
         }
-	}
+	},
+    {
+        '_TAGS' : ['ordered-reference-input', 'nw-ordered-ref-input', 'ordered-ref-input']
+    }
 );

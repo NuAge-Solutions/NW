@@ -92,7 +92,8 @@ OJ.extendManager(
 
             // show icon
             if(icon){
-                msg.icon = icon + '.inverse.1x';
+                msg.icon = icon;
+                msg.size = 5;
             }
 
             return msg;
@@ -193,7 +194,7 @@ OJ.extendManager(
 		},
 
         'showError' : function(message, title, icon, duration){
-            return this._showMessage(message, title || 'Error', icon || 'exclamation', duration);
+            return this._showMessage(message, title || 'Error', icon || 'fa-exclamation', duration);
         },
 
         'showLoading' : function(message, cancelable){
@@ -209,7 +210,7 @@ OJ.extendManager(
                 loading.title = message;
             }
             else{
-                self._loading = loading = self._makeMessage(null, message || 'Loading', 'circle-o-notch fa-spin');
+                self._loading = loading = self._makeMessage(null, message || 'Loading', 'fa-circle-o-notch fa-spin');
 
                 loading.cancelable = false;  // we want to manual control this
 
@@ -226,7 +227,7 @@ OJ.extendManager(
         },
 
         'showSuccess' : function(message, title, icon, duration){
-            return this._showMessage(message, title || 'Success', icon || 'check', duration);
+            return this._showMessage(message, title || 'Success', icon || 'fa-check', duration);
         },
 
 

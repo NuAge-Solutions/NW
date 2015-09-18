@@ -4,8 +4,6 @@ OJ.importJs('oj.components.OjButton');
 OJ.importCss('nw.window.NwActionButton');
 
 
-'use strict';
-
 OJ.extendComponent(
 	'NwActionButton', [OjItemRenderer],
 	{
@@ -21,5 +19,8 @@ OJ.extendComponent(
 
 			return false;
 		}
-	}
+	},
+    {
+        '_TAGS' : ['action-button']
+    }
 );

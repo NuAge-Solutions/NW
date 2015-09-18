@@ -28,11 +28,15 @@ OJ.definePackage(
 
 //    '_analytics' : null,  '_callbacks' : {},  '_gateway' : null,
 
+        'ON_BLUR' : 'nwOnAppBlur',
+        'ON_FOCUS' : 'nwOnAppFocus',
+        'ON_LAUNCH' : 'nwOnAppLaunch',
+        'ON_TERMINATE' : 'nwOnAppTerminate',
 
-        'BACKGROUND_FETCH' : 'nwOnAppFetch',
-        'CONFIRM' : 'nwConfirm',
+        'ON_BACKGROUND_FETCH' : 'nwOnAppFetch',
+        'ON_CONFIRM' : 'nwConfirm',
 
-        'STATUS_BAR_CHANGE' : 'onStatusBarChange',
+        'ON_STATUS_BAR_CHANGE' : 'nwOnStatusBarChange',
 
         'STATUS_BAR_NONE' : -1,
         'STATUS_BAR_DEFAULT' : 0,

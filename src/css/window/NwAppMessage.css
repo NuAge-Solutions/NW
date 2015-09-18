@@ -1,0 +1,26 @@
+.NwAppMessage .pane {
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-align-items: center;
+    align-items: center;
+
+    -webkit-justify-content: center;
+    justify-content: center;
+
+    -webkit-flex-direction: column;
+    flex-direction: column;
+
+    text-align: center;
+}
+    .NwAppMessage .pane > i {
+        color: #333;
+        font-size: 64px;
+    }
+
+    .NwAppMessage .pane > .bar {
+        padding-top: 20px;
+
+        font-size: 24px;
+        line-height: normal;
+    }

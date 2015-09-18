@@ -51,5 +51,8 @@ OJ.extendComponent(
         '.item_renderer' : function(){
             return this._data ? this._data.oj_class.ITEM_RENDERER : this._item_renderer;
         }
-	}
+	},
+    {
+        '_TAGS' : ['data-list-editor', 'nw-e-data-list', 'e-data-list']
+    }
 );

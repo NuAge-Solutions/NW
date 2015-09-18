@@ -39,37 +39,39 @@ OJ.defineClass(
 
 
         '_init' : function(){
-            // setup the url
-            var url = HistoryManager.get();
-            this._url = url.protocol + '://' + url.host;
+            var self = this,
+                url = HistoryManager.get();
+
+            // setup app url
+            self._url = url.protocol + '://' + url.host;
 
             // mobile settings
             if(
-                (OJ.is_mobile && this._has_mobile_layout) ||
-                (OJ.is_tablet && this._has_tablet_layout)
-                ){
-                this._scale = OJ.pixel_ratio;
+                (OJ.is_mobile && self._has_mobile_layout) ||
+                (OJ.is_tablet && self._has_tablet_layout)
+            ){
+                self._scale = OJ.pixel_ratio;
 
                 OJ.meta('viewport', 'width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no');
                 OJ.meta('apple-mobile-web-app-capable', 'yes');
             }
 
             // orientation settings
-            if(this._orientations){
-                NW.supportedOrientations = this._orientations;
+            if(self._orientations){
+                NW.supportedOrientations = self._orientations;
             }
 
             // size settings
-            if(this._minWidth && this._minHeight){
-                NW.minSize = [this._minWidth, this._minHeight];
+            if(self._minWidth && self._minHeight){
+                NW.minSize = [self._minWidth, self._minHeight];
             }
 
-            if(this._maxWidth && this._maxHeight){
-                NW.maxSize = [this._maxWidth, this._maxHeight];
+            if(this._maxWidth && self._maxHeight){
+                NW.maxSize = [self._maxWidth, self._maxHeight];
             }
 
             // init with the app manager
-            AppManager.init(this);
+            AppManager.init(self);
         },
 
 

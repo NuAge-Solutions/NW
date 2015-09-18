@@ -30,5 +30,8 @@ OJ.extendComponent(
 
             alrt.addEventListener(OjAlertEvent.BUTTON_PRESS, this, '_onDeleteConfirm');
         }
-	}
+	},
+    {
+        '_TAGS' : ['data-editor', 'nw-e-data', 'e-data']
+    }
 );
